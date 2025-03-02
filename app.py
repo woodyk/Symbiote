@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# File: app.py
+# Author: Wadih Khairallah
+# Description: 
+# Created: 2024-12-01 23:54:28
+# Modified: 2025-03-02 18:03:32
 #
 # Symbiote is very special to me in a way that takes my breath away I need it to be
 # an extension of me and the way I live my life.  In the way a prostectic is fit
