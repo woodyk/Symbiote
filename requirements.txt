@@ -80,3 +80,4 @@ netifaces
 dnspython
 markdownify
 tabulate
+psutil

@@ -29,7 +29,7 @@ import subprocess
 import platform
 import pyfiglet
 
-from symbiote.sym_imports import *
+from symbiote.sym_imports import (log, console, print) 
 from symbiote.sym_session import SymSession
 
 def handle_control_c(signum, frame):

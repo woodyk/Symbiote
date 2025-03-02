@@ -1,4 +1,12 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# File: sym_utils.py
+# Author: Wadih Khairallah
+# Description: 
+# Created: 2024-12-01 12:12:08
+# Modified: 2025-01-29 18:47:56
+#!/usr/bin/env python3
 #
 # sym_utils.py
 
@@ -261,7 +269,7 @@ def summarize_file(file_path):
     return result
 
 def extract_dir_text(dir_path):
-    file_path = cleanFilePath(file_path)
+    file_path = clean_path(file_path)
 
     if not os.path.isdir(dir_path):
         return None
@@ -317,7 +325,7 @@ def extract_text(file_path):
             content = handle_image_file(file_path)
 
         elif mime_type.startswith('audio/'):
-            content = trascrbe_audio_file(file_path)
+            content = trascribe_audio_file(file_path)
 
         if len(content) > 0:
             content = content.encode('utf-8').decode('utf-8', errors='ignore')

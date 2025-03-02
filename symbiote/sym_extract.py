@@ -5,19 +5,11 @@
 # Author: Wadih Khairallah
 # Description: 
 # Created: 2024-11-27 20:38:27
-#!/usr/bin/env python3
-#
-# sym_extract.py
+# Modified: 2024-12-02 02:03:25
 
 import re
 import sys
 import json
-
-from rich.console import Console
-from rich.highlighter import RegexHighlighter
-from rich.theme import Theme
-from rich.color import Color, ANSI_COLOR_NAMES
-from typing import Dict, Union
 
 
 PHONE_PATTERNS = [
@@ -269,64 +261,69 @@ def summarize(content):
     return summary
 
 
-content = """
-The server at 192.168.1.1/24 manages local network traffic, while the router gateway is set to 10.0.0.1. A public web server is accessible at 203.0.113.45, and an alternative testing server uses 198.51.100.27/32. For internal systems, we use a small subnet like 172.16.0.0/16. Occasionally, a device might have a static IP of 192.0.2.10, and legacy systems still refer to older IPs like 127.0.0.1 for loopback or 8.8.8.8 for Google's DNS. A customer mentioned their IP being 169.254.1.5, which falls under the link-local range. Lastly, our firewall monitors traffic from 123.123.123.123, a public IP on a different network.
+def main():
+    content = """
+    The server at 192.168.1.1/24 manages local network traffic, while the router gateway is set to 10.0.0.1. A public web server is accessible at 203.0.113.45, and an alternative testing server uses 198.51.100.27/32. For internal systems, we use a small subnet like 172.16.0.0/16. Occasionally, a device might have a static IP of 192.0.2.10, and legacy systems still refer to older IPs like 127.0.0.1 for loopback or 8.8.8.8 for Google's DNS. A customer mentioned their IP being 169.254.1.5, which falls under the link-local range. Lastly, our firewall monitors traffic from 123.123.123.123, a public IP on a different network.
 
-2001:db8:3333:4444:5555:6666:7777:8888
-2001:db8:3333:4444:CCCC:DDDD:EEEE:FFFF
-:: (implies all 8 segments are zero)
-2001:db8:: (implies that the last six segments are zero)
-::1234:5678
-::2
-::0bff:db8:1:1
-   ::0bff:db8:1:1
-2001:db8::ff34:5678
-2001:db8::1:5678
-2001:0db8:0001:0000:0000:0ab9:C0A8:0102 (This can be compressed to eliminate leading zeros, as follows: 2001:db8:1::ab9:C0A8:102 )
-Send funds to support@example.org
-   AA:BB:CC:DD:EE:FF
-aa:bb:cc:dd:ee:ff
-Aa:Bb:Cc:Dd:Ee:Ff
-AABBCCDDEEFF
-    aabbccddeeff   
-AaBbCcDdEeFf
-AA-BB-CC-DD-EE-FF
-aa-bb-cc-dd-ee-ff
-Aa-Bb-Cc-Dd-Ee-Ff
-AA.BB.CC.DD.EE.FF
-aa.bb.cc.dd.ee.ff
-Aa.Bb.Cc.Dd.Ee.Ff
-IPv6: fe80::1ff:fe23:4567:890a
-IPv6: fe80::1ff:fe23:4567:890a
-Give me a call at 1234567890
-Visit https://example.com for more info.
-Check the config at /etc/config/settings.ini or C:\\Windows\\System32\\drivers\\etc\\hosts.
-My phone number is 942 282 1445 or 954 224-3454 or (282) 445-4983
-+1 (203) 553-3294 and this 1-849-933-9938 
-One Apr 4th 1922 at 12pm or 12:30 pm or 10:20am
-Here is some JSON: {"key": "value"} or an array: [1, 2, 3].
-IPv4: 192.168.1.1, IPv6: fe80::1ff:fe23:4567:890a, MAC: 00:1A:2B:3C:4D:5E.
-Timestamp: 2023-11-18T12:34:56Z, Hex: 0x1A2B3C, Env: $HOME or %APPDATA%.
-UUID: 550e8400-e29b-41d4-a716-446655440000
- https://localhost/test.html
-   July 23rd 2023
-ssh://localhost:808/test
-11/19/2024 01:21:23
- 11/19/2024 01:21:23
-   2024/8/29
-12.03.24 
-Jan March May July dec 
-mon monday tues fri sunday
-IPv6: fe80::1ff:fe23:4567:890a
-Short: fe80::
-Dual: 2001:db8::192.168.1.1
-Invalid: 123::abc::456
-"""
-if len(sys.argv) > 1:
-    file = sys.argv[1]
-    with open(file, 'r') as fh:
-        content = fh.read()
+    2001:db8:3333:4444:5555:6666:7777:8888
+    2001:db8:3333:4444:CCCC:DDDD:EEEE:FFFF
+    :: (implies all 8 segments are zero)
+    2001:db8:: (implies that the last six segments are zero)
+    ::1234:5678
+    ::2
+    ::0bff:db8:1:1
+       ::0bff:db8:1:1
+    2001:db8::ff34:5678
+    2001:db8::1:5678
+    2001:0db8:0001:0000:0000:0ab9:C0A8:0102 (This can be compressed to eliminate leading zeros, as follows: 2001:db8:1::ab9:C0A8:102 )
+    Send funds to support@example.org
+       AA:BB:CC:DD:EE:FF
+    aa:bb:cc:dd:ee:ff
+    Aa:Bb:Cc:Dd:Ee:Ff
+    AABBCCDDEEFF
+        aabbccddeeff   
+    AaBbCcDdEeFf
+    AA-BB-CC-DD-EE-FF
+    aa-bb-cc-dd-ee-ff
+    Aa-Bb-Cc-Dd-Ee-Ff
+    AA.BB.CC.DD.EE.FF
+    aa.bb.cc.dd.ee.ff
+    Aa.Bb.Cc.Dd.Ee.Ff
+    IPv6: fe80::1ff:fe23:4567:890a
+    IPv6: fe80::1ff:fe23:4567:890a
+    Give me a call at 1234567890
+    Visit https://example.com for more info.
+    Check the config at /etc/config/settings.ini or C:\\Windows\\System32\\drivers\\etc\\hosts.
+    My phone number is 942 282 1445 or 954 224-3454 or (282) 445-4983
+    +1 (203) 553-3294 and this 1-849-933-9938 
+    One Apr 4th 1922 at 12pm or 12:30 pm or 10:20am
+    Here is some JSON: {"key": "value"} or an array: [1, 2, 3].
+    IPv4: 192.168.1.1, IPv6: fe80::1ff:fe23:4567:890a, MAC: 00:1A:2B:3C:4D:5E.
+    Timestamp: 2023-11-18T12:34:56Z, Hex: 0x1A2B3C, Env: $HOME or %APPDATA%.
+    UUID: 550e8400-e29b-41d4-a716-446655440000
+     https://localhost/test.html
+       July 23rd 2023
+    ssh://localhost:808/test
+    11/19/2024 01:21:23
+     11/19/2024 01:21:23
+       2024/8/29
+    12.03.24 
+    Jan March May July dec 
+    mon monday tues fri sunday
+    IPv6: fe80::1ff:fe23:4567:890a
+    Short: fe80::
+    Dual: 2001:db8::192.168.1.1
+    Invalid: 123::abc::456
+    """
+    if len(sys.argv) > 1:
+        file = sys.argv[1]
+        with open(file, 'r') as fh:
+            content = fh.read()
 
-# Extract and stitch matches
-pii_data = extract_pii(content)
-print(json.dumps(pii_data, indent=4))
+    # Extract and stitch matches
+    pii_data = extract_pii(content)
+    print(json.dumps(pii_data, indent=4))
+
+
+if __name__ == "__main__":
+    main()

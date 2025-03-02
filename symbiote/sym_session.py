@@ -5,7 +5,7 @@
 # Author: my name here
 # Description: 
 # Created: 2024-11-22 19:01:02
-# Modified: 2024-11-30 04:50:53
+# Modified: 2025-01-29 18:51:50
 
 import time
 import sys
@@ -136,6 +136,7 @@ import openai
 oaiclient = openai.OpenAI()
 try:
     response = oaiclient.models.list()
+
     for model in response:
         models.append("openai:" + model.id)
 except Exception as e:
@@ -184,7 +185,7 @@ command_list = {
         "shell::": "Work in shell mode and execute commands.",
         "clipboard::": "Load clipboard contents into symbiote.",
         "history::": "Show discussion history.",
-        "$": "Execute a local cli command and learn from the execution fo the command.",
+        "$::": "Execute a local cli command and learn from the execution fo the command.",
         "image::": "Render an image from the provided text.",
         "note::": "Create a note that is tracked in a separate conversation",
         "index::": "Index files into Elasticsearch.",
@@ -196,6 +197,7 @@ command_list = {
         "wiki::": "Run a wikipedia search on your search term.",
         "headlines::|news::": "Get headlines from major news agencies.",
         "mail::": "Load e-mail messages from gmail.",
+        "radio::": "Load spectrum analyzer and tool sets for use with hackrf one.",
     }
 
 audio_triggers = {
@@ -544,11 +546,11 @@ class SymSession():
                 vi_mode=self.settings['vi_mode'],
                 history=self.history,
                 style=self.prompt_style,
-                enable_system_prompt=True,
+                enable_system_prompt=False,
                 bottom_toolbar=get_toolbar,
                 enable_suspend=True,
                 enable_open_in_editor=False,
-                mouse_support=True,
+                mouse_support=False,
                 )
 
             toolbar_updater = threading.Thread(target=update_toolbar, daemon=True)
@@ -669,8 +671,11 @@ class SymSession():
             return None
 
         assistant_prompt = "symbiote> "
+        '''
         if self.settings['think'] is True:
-            self.think(user_input)
+            #self.think(user_input)
+            pass
+        '''
 
         current_role = self.settings['role']
         available_roles = Roles.get_roles()
@@ -1045,6 +1050,11 @@ class SymSession():
         _registerCommand("reset::")
         if re.search(r"^clear::|^reset::", user_input):
             os.system('reset')
+            return None
+
+        _registerCommand("radio::")
+        if re.search(r"^radio::", user_input):
+            # leverage sym_radio.py for full spectrum analysis
             return None
 
 
@@ -1869,18 +1879,20 @@ class SymSession():
                 return user_input
 
             elif os.path.isdir(file_path):
-                log(f"Directory crawling is temporarily disabled due to memory consumption.")
-                return None
-                '''
-                content = extractDirText(file_path)
-                if content is None:
-                    log(f"No content found in directory: {file_path}")
-                    return None
-                print(Panel(display, title=f"Content: {file_path}"))
-                user_input = user_input[:match.start()] + dir_content + user_input[match.end():]
-                '''
-            return None
+                combined_data = []
+                for root, _, files in os.walk(file_path):
+                    for file_name in files:
+                        file_path = os.path.join(root, file_name)
+                        try:
+                            data = extract_text(file_path)
+                            combined_data.append(data)
+                        except (OSError, UnicodeDecodeError) as e:
+                            print(f"Skipping file {file_path} due to error: {e}")
 
+                dir_content = ''.join(combined_data)
+                user_input = user_input[:match.start()] + dir_content + user_input[match.end():]
+
+            return None
         
         # Trigger image:: execution for AI image generation
         _registerCommand("image::")

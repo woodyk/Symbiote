@@ -5,7 +5,7 @@
 # Author: Wadih Khairallah
 # Description: 
 # Created: 2024-11-29 23:10:20
-# Modified: 2024-11-29 23:13:08
+# Modified: 2024-11-30 23:16:14
 
 from openai import OpenAI
 import openai
@@ -13,7 +13,6 @@ import inspect
 import os
 import json
 import logging
-
 
 MODEL_INFO = {
     "gpt-4o": {"context_window": 128000, "max_output_tokens": 16384},
@@ -61,7 +60,7 @@ class OpenAIInteractor:
         self.client.api_key = api_key
 
         # Configure logging
-        logging.basicConfig(level=logging.INFO)
+        logging.basicConfig(level=logging.WARNING)
         self.logger = logging.getLogger(__name__)
         self.logger.info(f"Initialized OpenAIInteractor with model: {self.model}")
         self.logger.info(f"Context window: {self.context_window}, Max output tokens: {self.max_output_tokens}")
@@ -102,19 +101,17 @@ class OpenAIInteractor:
                 required_params.append(param_name)
 
         function_definition = {
-            "type": "function",
-            "function": {
-                "name": function_name,
-                "description": function_description,
-                "parameters": {
-                    "type": "object",
-                    "properties": properties,
-                    "required": required_params,
-                },
+            "name": function_name,
+            "description": function_description,
+            "parameters": {
+                "type": "object",
+                "properties": properties,
+                "required": required_params,
+                "additionalProperties": False,
             },
         }
 
-        # Register the function as a tool
+        # Register the function
         self.tools.append(function_definition)
 
         # Dynamically attach the callable as an attribute of this instance
@@ -183,135 +180,188 @@ class OpenAIInteractor:
         self._prune_context()
 
         # Configure tools based on tool_choice
-        tools = None
+        functions = None
         if tool_choice == "auto" and self.tools:
-            tools = self.tools
+            functions = self.tools
         elif tool_choice == "none":
-            tools = None
+            functions = None
         elif tool_choice == "required" and not self.tools:
             raise ValueError("Tool usage is required, but no tools are registered.")
 
         input_data = {
             "model": self.model,
             "messages": self.conversation_history,
-            "tools": tools,
-            "max_completion_tokens": max_output_tokens,
+            "functions": functions,  # Use 'functions' instead of 'tools' for OpenAI API
+            "max_tokens": max_output_tokens,  # Correct parameter name
             "stream": use_streaming,
         }
 
         try:
+            response = self.client.chat.completions.create(**input_data)
+
             if use_streaming:
-                response = self.client.chat.completions.create(**input_data, stream=True)
                 return self._stream_response(response)
             else:
-                response = self.client.chat.completions.create(**input_data)
                 self.total_tokens_used += response.usage.total_tokens
                 return self._handle_response(response)
         except Exception as e:
             self.logger.error(f"Error during OpenAI interaction: {e}")
             raise
 
-
     def _stream_response(self, response):
         """
-        Stream response content and process tool calls incrementally.
+        Stream response content and process function calls incrementally.
 
         :param response: The streaming response object.
-        :yield: Chunks of the assistant's response content or tool call results.
+        :yield: Chunks of the assistant's response content or function call results.
         """
+        self.logger.debug("Starting to process streaming response.")
         function_arguments = ""
         function_name = ""
         is_collecting_function_args = False
-        tool_call_id = None
 
         for part in response:
+            self.logger.debug(f"Streaming part: {part}")
             delta = part.choices[0].delta
-            finish_reason = part.choices[0].finish_reason
 
-            if "content" in delta:
-                yield delta["content"]
+            # Handle assistant content
+            if hasattr(delta, 'content') and delta.content is not None:
+                self.logger.debug(f"Received content chunk: {delta.content}")
+                yield delta.content
 
-            if delta.tool_calls:
+            # Handle function calls
+            if hasattr(delta, 'function_call') and delta.function_call is not None:
+                function_call = delta.function_call
+                if hasattr(function_call, 'name') and function_call.name is not None:
+                    function_name = function_call.name
+                if hasattr(function_call, 'arguments') and function_call.arguments is not None:
+                    function_arguments += function_call.arguments
                 is_collecting_function_args = True
-                tool_call = delta.tool_calls[0]
-                tool_call_id = tool_call.id
+                self.logger.debug(f"Function call detected: {function_name} with partial arguments: {function_arguments}")
 
-                if tool_call.function.name:
-                    function_name = tool_call.function.name
-                if tool_call.function.arguments:
-                    function_arguments += tool_call.function.arguments
+            # If the function call is complete
+            if part.choices[0].finish_reason == "function_call" and is_collecting_function_args:
+                self.logger.debug(f"Function call '{function_name}' is complete with arguments: {function_arguments}")
+                try:
+                    arguments = json.loads(function_arguments) if function_arguments.strip() else {}
+                    tool_result = self._execute_tool(function_name, arguments)
+                    self.logger.debug(f"Function '{function_name}' executed with result: {tool_result}")
 
-            if finish_reason == "tool_calls" and is_collecting_function_args:
-                # Execute the tool and format the result
-                arguments = json.loads(function_arguments)
-                tool_result = self._execute_tool(function_name, arguments)
+                    function_call_result_message = {
+                        "role": "function",
+                        "name": function_name,
+                        "content": json.dumps(tool_result),
+                    }
+                    self.conversation_history.append(function_call_result_message)
+                    self.logger.debug(f"Appended function result message: {function_call_result_message}")
 
-                # Create a tool call result message, ensuring content is serialized
-                tool_call_result_message = {
-                    "role": "tool",
-                    "content": json.dumps(tool_result),  # Ensure content is serialized
-                    "tool_call_id": tool_call_id
-                }
+                    input_data = {
+                        "model": self.model,
+                        "messages": self.conversation_history,
+                        "functions": self.tools,
+                        "stream": True,
+                    }
+                    self.logger.debug(f"Making a new streaming request with input_data: {input_data}")
+                    new_response = self.client.chat.completions.create(**input_data)
+                    # Start processing the new streaming response
+                    yield from self._stream_response(new_response)
+                    return  # Ensure we exit after starting the new streaming response
+                except Exception as e:
+                    error_message = {
+                        "error": f"Function '{function_name}' execution failed.",
+                        "message": str(e),
+                    }
+                    self.logger.error(f"Error processing function '{function_name}': {e}")
 
-                # Append to conversation history and resubmit
-                self.conversation_history.append({"role": "assistant", "tool_calls": [tool_call.to_dict()]})
-                self.conversation_history.append(tool_call_result_message)
+                    # Return error as function response
+                    function_call_result_message = {
+                        "role": "function",
+                        "name": function_name,
+                        "content": json.dumps(error_message),
+                    }
+                    self.conversation_history.append(function_call_result_message)
+                    self.logger.debug(f"Appended error function result message: {function_call_result_message}")
 
-                input_data = {
-                    "model": self.model,
-                    "messages": self.conversation_history,
-                    "stream": True,
-                }
-                response = self.client.chat.completions.create(**input_data, stream=True)
+                    # Resubmit conversation with function error
+                    input_data = {
+                        "model": self.model,
+                        "messages": self.conversation_history,
+                        "functions": self.tools,
+                        "stream": True,
+                    }
+                    self.logger.debug(f"Making a new streaming request with error input_data: {input_data}")
+                    new_response = self.client.chat.completions.create(**input_data)
+                    yield from self._stream_response(new_response)
+                    return  # Ensure we exit after starting the new streaming response
 
-                # Continue streaming from the new response
-                yield from self._stream_response(response)
+            # Stop streaming on "stop" finish reason
+            if part.choices[0].finish_reason == "stop":
+                self.logger.debug("Streaming completed successfully with finish_reason='stop'.")
                 break
 
+        self.logger.debug("Finished processing streaming response.")
 
     def _handle_response(self, response):
         """
         Handle non-streaming responses from the API.
 
         :param response: The API response object.
-        :return: The assistant's response or the result of a tool call.
+        :return: The assistant's response or the result of a function call.
         """
         choice = response.choices[0]
 
         if choice.finish_reason == "stop":
-            # Standard response from the assistant
             assistant_message = choice.message.content
             self.conversation_history.append({"role": "assistant", "content": assistant_message})
             return assistant_message
 
-        elif choice.finish_reason == "tool_calls":
-            # Handle the tool call
-            tool_call = choice.message.tool_calls[0]
-            tool_name = tool_call.function.name
-            arguments = json.loads(tool_call.function.arguments)
-            tool_result = self._execute_tool(tool_name, arguments)
+        elif choice.finish_reason == "function_call":
+            function_call = choice.message.function_call
+            function_name = function_call.name
 
-            # Create a message for the tool call result, ensuring content is a JSON string
-            tool_call_result_message = {
-                "role": "tool",
-                "content": json.dumps(tool_result),  # Ensure content is serialized
-                "tool_call_id": tool_call.id
-            }
+            try:
+                arguments = json.loads(function_call.arguments) if function_call.arguments else {}
+                tool_result = self._execute_tool(function_name, arguments)
 
-            # Append tool call and result to the conversation history
-            self.conversation_history.append(choice.message.to_dict())
-            self.conversation_history.append(tool_call_result_message)
+                function_call_result_message = {
+                    "role": "function",
+                    "name": function_name,
+                    "content": json.dumps(tool_result),
+                }
+                self.conversation_history.append(function_call_result_message)
 
-            # Resubmit the conversation with the tool result included
-            input_data = {
-                "model": self.model,
-                "messages": self.conversation_history,
-            }
-            response = self.client.chat.completions.create(**input_data)
+                # Resubmit the conversation with the function result
+                input_data = {
+                    "model": self.model,
+                    "messages": self.conversation_history,
+                    "functions": self.tools,
+                }
+                response = self.client.chat.completions.create(**input_data)
+                return self._handle_response(response)
 
-            # Recursively handle the next response
-            return self._handle_response(response)
+            except Exception as e:
+                error_message = {
+                    "error": f"Function '{function_name}' failed.",
+                    "message": str(e),
+                }
+                self.logger.error(f"Error processing function '{function_name}': {e}")
 
+                # Return error as function response
+                function_call_result_message = {
+                    "role": "function",
+                    "name": function_name,
+                    "content": json.dumps(error_message),
+                }
+                self.conversation_history.append(function_call_result_message)
+
+                # Resubmit conversation with function error
+                input_data = {
+                    "model": self.model,
+                    "messages": self.conversation_history,
+                    "functions": self.tools,
+                }
+                response = self.client.chat.completions.create(**input_data)
+                return self._handle_response(response)
 
     def _execute_tool(self, tool_name, arguments):
         """
@@ -326,46 +376,89 @@ class OpenAIInteractor:
         if not external_callable:
             raise ValueError(f"Function '{tool_name}' is not defined.")
 
-        # Execute the function with the provided arguments
+        # Check the function signature
+        signature = inspect.signature(external_callable)
+        required_params = signature.parameters
+        missing_args = []
+
+        # Validate arguments against the function signature
+        for param_name, param in required_params.items():
+            if param_name not in arguments:
+                if param.default == inspect.Parameter.empty:
+                    missing_args.append(param_name)
+                else:
+                    arguments[param_name] = param.default  # Use default value
+
+        # If arguments are missing, return an error response
+        if missing_args:
+            error_message = f"Missing required argument(s): {', '.join(missing_args)}"
+            self.logger.error(error_message)
+            return {
+                "error": f"Function '{tool_name}' failed to execute.",
+                "missing_arguments": missing_args,
+                "message": error_message,
+            }
+
+        # Execute the tool
+        self.logger.debug(f"Executing '{tool_name}' with arguments: {arguments}")
         return external_callable(**arguments)
 
+# Functions to be registered
+def get_current_temperature(location: str, unit: str):
+    """
+    Get the current temperature for a specific location.
 
-def main():
-    def get_current_temperature(location: str, unit: str):
-        """
-        Get the current temperature for a specific location.
+    Parameters:
+        location (str): The city and state, e.g., "San Francisco, CA".
+        unit (str): The temperature unit ("Celsius" or "Fahrenheit").
 
-        Parameters:
-            location (str): The city and state, e.g., "San Francisco, CA".
-            unit (str): The temperature unit ("Celsius" or "Fahrenheit").
+    Returns:
+        dict: The temperature and location.
+    """
+    # Simulated temperature retrieval logic
+    return {"location": location, "unit": unit, "temperature": 72}
 
-        Returns:
-            dict: The temperature and location.
-        """
-        return {"location": location, "unit": unit, "temperature": 72}
+def get_rain_probability(location: str):
+    """
+    Get the probability of rain for a specific location.
 
-    def get_rain_probability(location: str):
-        """
-        Get the probability of rain for a specific location.
+    Parameters:
+        location (str): The city and state, e.g., "San Francisco, CA".
 
-        Parameters:
-            location (str): The city and state, e.g., "San Francisco, CA".
+    Returns:
+        dict: The rain probability and location.
+    """
+    # Simulated rain probability retrieval logic
+    return {"location": location, "rain_probability": 15}
 
-        Returns:
-            dict: The rain probability and location.
-        """
-        return {"location": location, "rain_probability": 15}
+def get_server_status():
+    """
+    Get the current status of the server.
 
+    Returns:
+        dict: A dictionary containing server uptime and load information.
+    """
+    # Simulated server status retrieval logic
+    return {"status": "online", "uptime": "48 hours", "load": "moderate"}
+
+# Main code to test the functionality
+if __name__ == "__main__":
     oai = OpenAIInteractor()
     oai.add_function(external_callable=get_current_temperature)
     oai.add_function(external_callable=get_rain_probability)
-    response = oai.handle_chat_request("What's the temperature in San Francisco, CA?")
+    oai.add_function(external_callable=get_server_status)
+
+    # Test with streaming
+    print("Streaming Mode:")
+    response = oai.handle_chat_request(
+        {"role": "user", "content": "What is the temperature in San Francisco and tell me about San Fran."},
+        stream=True
+    )
+    for chunk in response:
+        print(chunk, end="")  # Consume and print each chunk
+
+    response = oai.handle_chat_request(
+        {"role": "user", "content": "What is the current server status.  Also is it going to rain today?"},
+    )
 
     print(response)
-
-    response = oai.handle_chat_request({"role": "user", "content": "Calculate the area of a rectangle with width 5 and height 10."})
-    print(response)
-
-
-if __name__ == "__main__":
-    main()

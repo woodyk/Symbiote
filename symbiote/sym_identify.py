@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# File: sym_identify.py
+# Author: Wadih Khairallah
+# Description: 
+# Created: 2024-12-02 00:20:55
+#!/usr/bin/env python3
 #
 # is_anything.py
 #https://data.iana.org/TLD/tlds-alpha-by-domain.txt

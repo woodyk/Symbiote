@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# File: WebFormAnalyzer.py
+# Author: Wadih Khairallah
+# Description: 
+# Created: 2024-12-04 12:34:23
+#!/usr/bin/env python3
 #
 # WebFormAnalyzer.py
 
