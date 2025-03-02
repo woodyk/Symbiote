@@ -1,0 +1,151 @@
+#!/usr/bin/env python3
+#
+# code_agent
+
+import os
+import re
+import sys
+from mistralai.client import MistralClient
+from mistralai.models.chat_completion import ChatMessage
+from openai import OpenAI
+from rich.markdown import Markdown
+from rich.console import Console
+from prompt_toolkit import PromptSession
+from prompt_toolkit.shortcuts import CompleteStyle
+from prompt_toolkit.key_binding import KeyBindings
+from prompt_toolkit.lexers import PygmentsLexer
+from prompt_toolkit.styles import Style
+from pygments.lexers.markup import MarkdownLexer
+
+client = OpenAI()
+console = Console()
+
+chat_history = []
+api_key = os.environ["MISTRAL_AI_API_KEY"]
+openai_model = "gpt-3.5-turbo"
+openai_model = "gpt-4o"
+
+role = """You are a Python Developer AI tasked with leading an iterative code improvement process. Your primary responsibilities are to:
+1. Create initial Python scripts based on user input.
+2. Provide clear, constructive instructions for another AI to review, optimize, and enhance the scripts iteratively.
+3. Emphasize the importance of code efficiency, readability, and functionality in each iteration.
+4. Collaborate to refine the scripts through multiple iterations until the final version is highly optimized.
+
+Begin by creating an initial script and instruct the responder AI to enhance it. Each response should build upon the previous iteration to achieve the best possible outcome."""
+chat_history.append({"role": "system", "content": role})
+
+def mistral(user_input):
+    model = "mistral-large-latest"
+    chat_history.append({"role": "assistant", "content": user_input})
+
+    client = MistralClient(api_key=api_key)
+
+    try:
+        chat_response = client.chat(
+            model=model,
+            messages=[ChatMessage(role="user", content=user_input)]
+        )
+    except Exception as e:
+        print(e)
+        sys.exit(1)
+
+    message = chat_response.choices[0].message.content
+    return chat_response.choices[0].message.content
+
+def openai(user_input, model=openai_model):
+    chat_history.append({"role": "user", "content": user_input})
+
+    messages = [
+            {"role": "system", "content": role},
+            ] + chat_history
+
+    try:
+        response = client.chat.completions.create(
+            model=model,
+            messages=chat_history,
+        )
+    except Exception as e:
+        print(e)
+        sys.exit(1)
+
+    message = response.choices[0].message.content.strip()
+    return message
+
+def extract_code_blocks(input_text, output_directory="/tmp"):
+    # Ensure the output directory exists
+    if not os.path.exists(output_directory):
+        os.makedirs(output_directory)
+
+    # Regular expression to find code blocks, capturing the language identifier if present
+    code_block_pattern = re.compile(r'```(\w+)?\s*(.*?)```', re.DOTALL)
+    code_blocks = code_block_pattern.findall(input_text)
+
+    # Write each code block to a separate file
+    for i, (lang, code_block) in enumerate(code_blocks):
+        if lang:
+            file_extension = lang
+        else:
+            file_extension = "txt"
+        
+        file_name = f"{output_directory}/code_block_{i+1}.{file_extension}"
+        with open(file_name, 'w') as file:
+            file.write(code_block.strip())
+
+    return len(code_blocks)
+
+def printmd(text):
+    print("------------------------------")
+    markdown = Markdown(text)
+    console.print(markdown)
+
+if __name__ == "__main__":
+    # Configure prompt_toolkit for vi mode, multiline input, and history
+    bindings = KeyBindings()
+    session = PromptSession(
+        multiline=True,
+        vi_mode=True,
+        complete_style=CompleteStyle.READLINE_LIKE,
+        key_bindings=bindings,
+        lexer=PygmentsLexer(MarkdownLexer),
+        history=None,  # Add history here if needed
+    )
+    style = Style.from_dict({
+        '': 'bg:#f5f5f5 #000000',
+        'prompt': 'bg:#ffffff #000000 bold',
+    })
+
+    iterations = session.prompt(
+            'iterations [1-100]>> ',
+            style=style,
+            include_default_pygments_style=False,
+            )
+
+    seed = session.prompt(
+            'instruct>> ',
+            style=style,
+            include_default_pygments_style=False,
+            )
+
+    ai_input = openai(seed)
+    print(ai_input)
+
+    for _ in range(int(iterations)):
+        ai_input = openai(ai_input)
+        print(ai_input)
+
+    ai_input = openai("Analyze and optimize all the code that has been created and provide the final script in it's entirety.  Only output the code and no other summaries.")
+    chat_history.append({"role": "user", "content": ai_input})
+    print(ai_input)
+
+    while True:
+        seed = session.prompt(
+            'refine>> ',
+            style=style,
+            include_default_pygments_style=False,
+            )
+
+        if seed == "exit":
+            break
+
+        response = openai(seed)
+        print(response)

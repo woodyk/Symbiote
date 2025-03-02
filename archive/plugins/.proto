@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+message Shape {
+  enum Type {
+    SQUARE = 0;
+    CIRCLE = 1;
+    LINE = 2;
+  }
+
+  message Position {
+    int32 x = 1;
+    int32 y = 2;
+  }
+
+  message Size {
+    int32 width = 1;
+    int32 height = 2;
+  }
+
+  string id = 1;
+  Type type = 2;
+  Position position = 3;
+  Size size = 4;
+  bool visible = 5;
+}

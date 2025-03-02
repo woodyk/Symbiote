@@ -1,0 +1,54 @@
+'''html
+<!DOCTYPE html> <!-- The <!DOCTYPE> declaration helps with browser compatibility. -->
+
+<html> <!-- The <html> element is the root element of an HTML page. -->
+  
+  <head> <!-- The <head> element contains meta-information about the HTML document. -->
+    <title>Page Title</title> <!-- The <title> element specifies a title for the HTML document. -->
+  </head>
+
+  <body> <!-- The <body> element contains the content of the document. -->
+
+    <h1>My First Heading</h1> <!-- The <h1> to <h6> elements are HTML headings. -->
+
+    <p>My first paragraph.</p> <!-- The <p> element defines a paragraph. -->
+
+    <a href="https://www.example.com">This is a link</a> <!-- The <a> element defines a hyperlink. -->
+
+    <img src="image.jpg" alt="An image" width="500" height="600"> <!-- The <img> element is used to embed images. -->
+
+    <br> <!-- The <br> element inserts a line break. -->
+
+    <hr> <!-- The <hr> element is used to specify a thematic break in an HTML page. -->
+
+    <table> <!-- The <table> element is used to create a table. -->
+      <tr> <!-- The <tr> element defines a row in a table. -->
+        <th>Header</th> <!-- The <th> element defines a header cell in a table. -->
+        <td>Data</td> <!-- The <td> element defines a cell in a table. -->
+      </tr>
+    </table>
+
+    <ul> <!-- The <ul> element defines an unordered list. -->
+      <li>List item</li> <!-- The <li> element defines a list item. -->
+    </ul>
+
+    <ol> <!-- The <ol> element defines an ordered list. -->
+      <li>List item</li> <!-- The <li> element defines a list item. -->
+    </ol>
+
+    <div> <!-- The <div> element is a container unit that encapsulates other page elements and divides the HTML document into sections. -->
+      <p>Some text.</p>
+    </div>
+
+    <span> <!-- The <span> element is an inline container used to mark up a part of a text, or a part of a document. -->
+      Some text.
+    </span>
+
+    <form action="/submit" method="post"> <!-- The <form> element is used to create an HTML form for user input. -->
+      <input type="text" name="name"> <!-- The <input> element is used to get user input. -->
+      <input type="submit" value="Submit"> <!-- A submit button is used to send form data to a server. -->
+    </form>
+
+  </body>
+
+</html>

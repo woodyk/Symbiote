@@ -1,0 +1,47 @@
+'''css
+/* The '*' selector selects all elements. */
+* {
+  margin: 0;  /* The 'margin' property sets the margins of an element. */
+  padding: 0;  /* The 'padding' property sets the padding area of an element. */
+  box-sizing: border-box;  /* The 'box-sizing' property defines how the width and height of an element are calculated. */
+}
+
+body {
+  font-family: Arial, sans-serif;  /* The 'font-family' property specifies the font for an element. */
+  line-height: 1.6;  /* The 'line-height' property specifies the line height. */
+  color: #333;  /* The 'color' property sets the color of the text. */
+}
+
+/* The '.class' selector selects elements with a specific class attribute. */
+.container {
+  width: 80%;  /* The 'width' property sets the width of an element. */
+  margin: auto;  /* The 'margin' property with 'auto' value horizontally centers the element within its container. */
+}
+
+/* The '#id' selector selects an element with a specific id attribute. */
+#main-header {
+  background-color: #f4f4f4;  /* The 'background-color' property sets the background color of an element. */
+  text-align: center;  /* The 'text-align' property sets the horizontal alignment of a block element or table-cell box. */
+}
+
+/* The 'element' selector selects elements based on the element name. */
+h1 {
+  font-size: 2em;  /* The 'font-size' property sets the font size of the text. */
+}
+
+/* The 'element,element' selector selects all elements matching either selector. */
+h1, h2 {
+  color: #0080ff;  /* The 'color' property sets the color of the text. */
+}
+
+/* The 'element element' selector selects elements inside other elements. */
+.container .box {
+  padding: 20px;  /* The 'padding' property sets the padding area of an element. */
+  background-color: #f4f4f4;  /* The 'background-color' property sets the background color of an element. */
+}
+
+/* The ':hover' selector selects elements when you mouse over them. */
+a:hover {
+  color: #f00;  /* The 'color' property sets the color of the text. */
+  text-decoration: none;  /* The 'text-decoration' property sets the text formatting to none. */
+}

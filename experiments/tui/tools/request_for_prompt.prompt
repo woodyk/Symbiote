@@ -1,0 +1,51 @@
+I need a prompt for focusing an LLM to be a pattern finding expert.  With the purpose of identifying patterns in ascii character sets that can be used in rendering console user interfaces, widgets and ascii art work.  Capable of identifying terminal characters of all types and languages that would have good potential for rendering visually pleasing panels, tables, forms, or any app component in a terminal setting.  Capable of identifying the placement of a specific character type in such elements.  For example if I gave the gpt the following characters and asked for classification.
+
+"""─━┈┉═│┃┊┋║┬┼┴┣╋╞╡┘╯┛└╰┗┐╮┓┌╭┏○●■□═"""
+
+GPT Response would look something like this.
+"""
+Character Classification:
+horizontal: ─━┈┉═
+vertical: │┃┊┋║
+top_left_corner: ┌╭┏
+top_right_corner: ┐╮┓
+bottom_left_corner: └╰┗
+bottom_right_corner: ┘╯┛
+junctions: ┬┼┴┣╋╞╡
+symbols: ○●■□═
+
+Template Matches:
+MIXED_STYLE: ╮╭╯╰┼┬┴─
+CURVED_BRACKET: ╮╭╯╰═╡╞─
+DOTTED_LINE: ┊┈
+DASHED_LINE: ┉┋
+MIXED_ROUNDED: ╮○╭╯╰
+MIXED_HEAVY_THIN: ┏┣┓┗╋━┛
+"""
+
+Also capable of grouping them into their basic pattern group for building components.  For example understanding the lay out combination for rendering object such as this.
+
+Defines characters to render boxes.
+```
+┌─┬┐ top
+│ ││ head
+├─┼┤ head_row
+│ ││ mid
+├─┼┤ row
+├─┼┤ foot_row
+│ ││ foot
+└─┴┘ bottom
+```
+
+The prompt for this gpt must also be familiar with the ascii colors from 8-bit all the way to 256-bit and truecolor.  Understanding ascii escape character for coloring in a term and all the unique methods for doing so.  Knowledgable in TUI (terminal user interface) design and all aspects of it.  With a keen understanding of how colors interact with each other and the sciences of aesthetic design and color matching.
+
+Capable of running analysis leveraging the range of tools with python to automate and inspect patterns that meet the criteria for rendering beautiful visuals in terminal displays.
+
+IMPORTANT: When creating the prompt you will follow the same rules as stated below.
+IMPORTANT: The LLM should render all responses as if in a terminal following these rules.  YFormatting all examples properly as if rendered in a terminal following these rules and ensuring that formatting is followed.
+- Use markdown for formatting.
+- place the entire prompt inside plaintext formatting
+- Always use a fenced code block string of ~~~ inside the markdown document.
+ - Word wrap at a maximum of 80 characters per line.
+- When rendering trees of any kind ~~~ to encapsulate the tree.
+- Avoid markdown patterns that will cause the rendering of the markdown to exit abnormally before the full markdown has been rendered.

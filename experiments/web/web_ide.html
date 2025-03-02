@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML IDE</title>
+    <!-- Include CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.10/codemirror.min.css">
+    <!-- Include CodeMirror Theme -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.10/theme/dracula.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        :root {
+            --background-color: #282c34;
+            --text-color: #abb2bf;
+            --editor-bg-color: #1e2127;
+            --preview-bg-color: #fff;
+            --button-bg-color: #61dafb;
+            --button-text-color: #000;
+        }
+
+        .light-theme {
+            --background-color: #f0f0f0;
+            --text-color: #333;
+            --editor-bg-color: #fff;
+            --preview-bg-color: #f0f0f0;
+            --button-bg-color: #61dafb;
+            --button-text-color: #000;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        .editor {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--editor-bg-color);
+            padding: 20px;
+        }
+
+        .CodeMirror {
+            flex: 1;
+            height: 100%;
+            background-color: var(--editor-bg-color);
+            color: var(--text-color);
+            font-family: monospace;
+            font-size: 16px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: var(--button-bg-color);
+            color: var(--button-text-color);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .preview {
+            width: 50%;
+            background-color: var(--preview-bg-color);
+            padding: 20px;
+            border-left: 1px solid #ddd;
+        }
+
+        .preview-content {
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="editor">
+            <div class="controls">
+                <button onclick="runCode()">Run</button>
+                <button onclick="toggleTheme()">Toggle Theme</button>
+            </div>
+            <textarea id="code" name="code"></textarea>
+        </div>
+        <div class="preview">
+            <iframe id="preview-content" class="preview-content"></iframe>
+        </div>
+    </div>
+
+    <!-- Include CodeMirror JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.10/codemirror.min.js"></script>
+    <!-- Include HTML mode -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.10/mode/xml/xml.min.js"></script>
+    <!-- Include JavaScript mode -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.10/mode/javascript/javascript.min.js"></script>
+    <!-- Include CSS mode -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.10/mode/css/css.min.js"></script>
+    <!-- Include theme change script -->
+    <script>
+        const editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+            mode: 'text/html',
+            theme: 'dracula',
+            lineNumbers: true,
+            autoCloseTags: true,
+            matchBrackets: true
+        });
+
+        function runCode() {
+            const code = editor.getValue();
+            const previewFrame = document.getElementById('preview-content');
+            const preview = previewFrame.contentDocument || previewFrame.contentWindow.document;
+            preview.open();
+            preview.write(code);
+            preview.close();
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+            editor.setOption('theme', document.body.classList.contains('light-theme') ? 'default' : 'dracula');
+        }
+    </script>
+</body>
+</html>
+

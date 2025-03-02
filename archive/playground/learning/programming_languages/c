@@ -1,0 +1,76 @@
+'''c
+#include <stdio.h>  // 'include' keyword includes a file
+
+int main() {  // 'int' keyword declares an integer type
+
+  // 'printf' function outputs a string
+  printf("Hello, world!\n");  // Output: Hello, world!
+
+  // 'if' keyword starts a conditional statement
+  int age = 30;  // 'int' keyword declares an integer type
+  if (age > 18) {
+    printf("Adult\n");  // Output: Adult
+  }
+
+  // 'else' keyword starts a block of code to be executed if the same condition is false
+  else {
+    printf("Not an adult\n");
+  }
+
+  // 'for' keyword creates a for loop
+  for (int i = 0; i < 5; i++) {
+    printf("%d\n", i);  // Output: 0 1 2 3 4
+  }
+
+  // 'while' keyword creates a while loop
+  int i = 0;
+  while (i < 5) {
+    printf("%d\n", i);  // Output: 0 1 2 3 4
+    i++;
+  }
+
+  // 'do...while' keyword creates a do/while loop
+  i = 0;
+  do {
+    printf("%d\n", i);  // Output: 0 1 2 3 4 5
+    i++;
+  } while (i < 5);
+
+  // 'switch' keyword selects one of many blocks of code to be executed
+  int color = 2;
+  switch (color) {
+    case 1:
+      printf("Color is red\n");
+      break;
+    case 2:
+      printf("Color is blue\n");  // Output: Color is blue
+      break;
+    default:
+      printf("Color is neither red nor blue\n");
+  }
+
+  // 'typedef' keyword creates a type alias
+  typedef int number;
+  number num = 5;
+  printf("%d\n", num);  // Output: 5
+
+  // 'struct' keyword defines a structure type
+  struct Person {
+    char name[30];
+    int age;
+  };
+  struct Person person;
+  person.age = 30;
+  printf("%d\n", person.age);  // Output: 30
+
+  // 'enum' keyword declares an enumeration
+  enum Weekday {Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday};
+  enum Weekday today = Monday;
+  printf("%d\n", today);  // Output: 0
+
+  // 'sizeof' keyword returns the size of a variable or type
+  printf("%zu\n", sizeof(int));  // Output: 4 (on most systems)
+
+  // 'return' keyword stops the execution of a function and returns a value
+  return 0;
+}

@@ -1,0 +1,59 @@
+### TUI Character Pattern Selection Guide
+
+#### Purpose:
+Create visually appealing text-based panels, tables, or other TUI elements using a specified set of Unicode characters. Ensure that selected characters align visually and functionally for clean, readable layouts.
+
+#### Key Principles:
+1. **Character Types**:
+   - **Corners**: Characters used for the top-left, top-right, bottom-left, and bottom-right of a box or panel.
+   - **Horizontals**: Characters used for top/bottom borders or connecting horizontal junctions.
+   - **Verticals**: Characters used for side borders or connecting vertical junctions.
+   - **Junctions**: Characters used at intersections or connections within a table or panel.
+
+2. **Alignment Rules**:
+   - **Justification Matching**:
+     - **Corners and Horizontals**: Match top-justified corners with top-justified horizontals. Similarly, bottom-justified corners need bottom-justified horizontals.
+     - **Corners and Verticals**: Match left-justified corners with left-justified verticals, and right-justified corners with right-justified verticals.
+     - **Junctions**: Center-justified junctions should align with center-justified horizontals and verticals.
+   - **Bias Awareness**:
+     - A character may appear center-justified but have visual bias (e.g., "⟷" is center-justified with bias towards the bottom). Such bias affects visual harmony.
+
+3. **Selection Process**:
+   - Use Unicode metadata or linguistic descriptions to evaluate justification and alignment.
+   - Prioritize visually aligned combinations for aesthetics and readability.
+   - Avoid combinations where the main features of characters (e.g., lines, junctions) do not visually meet.
+
+#### Process for Generating a TUI Panel:
+1. **Define Required Elements**:
+   - Corners (e.g., "⎡", "⎤", "⎣", "⎦").
+   - Horizontals (e.g., "─", "⟷", "⎺").
+   - Verticals (e.g., "│", "⎹", "⎟").
+   - Junctions (e.g., "┼", "⟼").
+   
+2. **Measure Alignment**:
+   - Check justification of each character (top, bottom, center).
+   - Compare alignment of corners, horizontals, and verticals for visual compatibility.
+
+3. **Build and Test**:
+   - Construct a panel using the chosen elements.
+   - Test visually by simulating the output in a monospace font.
+   - Adjust mismatches or gaps as needed.
+
+#### Examples:
+**Good Alignment**:
+- Top row: `⎡⎺⎺⎺⎺⎤`
+  - "⎡" and "⎤" are top-justified corners.
+  - "⎺" is a top-justified horizontal line.
+  
+**Bad Alignment**:
+- Top row: `⎡⟷⟷⟷⟷⎤`
+  - "⎡" and "⎤" are top-justified corners.
+  - "⟷" is center-justified with bias towards the bottom, creating a visual mismatch.
+
+#### Challenges:
+- Mixed-justification characters (e.g., "⟷" for horizontals, paired with top-justified corners).
+- Center-biased junctions that conflict with side-biased horizontals or verticals.
+
+#### Goal:
+Ensure all elements align visually to create clean and aesthetically pleasing TUI layouts. Consider corner, horizontal, vertical, and junction features and their justification biases when making selections.
+
