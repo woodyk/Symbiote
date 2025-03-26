@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# File: DeceptionDetection.py
+# Author: Wadih Khairallah
+# Description: 
+# Created: 2025-03-22 20:22:32
+#!/usr/bin/env python3
 #
 # DeceptionDetection.py
 """

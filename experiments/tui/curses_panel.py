@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 #
-# curses_panel.py
+# File: curses_panel.py
+# Author: Wadih Khairallah
+# Description: 
+# Created: 2025-03-16 19:24:10
 
 import curses
 import curses.panel

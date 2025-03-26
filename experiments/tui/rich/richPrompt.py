@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# File: richPrompt.py
+# Author: Wadih Khairallah
+# Description: 
+# Created: 2025-03-16 19:36:07
+#!/usr/bin/env python3
 #
 # richPrompt.py
 
@@ -79,7 +86,7 @@ try:
     fruit = CustomPrompt.ask("Choose a fruit")
     console.print(f"You chose: [bold green]{fruit}[/bold green]")
 except Exception as e:
-    print(f"Error: {e)"
+    print(f"Error: {e}")
 
 # Example 10: Using Prompt in a Script
 console.rule("Prompt in a Script")

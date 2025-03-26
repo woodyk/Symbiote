@@ -1,0 +1,560 @@
+[
+  {
+    "type": "navigate",
+    "url": "https://slashdot.org/",
+    "time": 1.7075660228729248,
+    "duration": 1.7075660228729248
+  },
+  {
+    "type": "navigate",
+    "url": "about:blank",
+    "time": 3.519545078277588,
+    "duration": 1.811979055404663
+  },
+  {
+    "type": "navigate",
+    "url": "about:blank",
+    "time": 3.555631160736084,
+    "duration": 0.036086082458496094
+  },
+  {
+    "type": "navigate",
+    "url": "https://acdn.adnxs.com/dmp/async_usersync.html",
+    "time": 9.934953212738037,
+    "duration": 6.379322052001953
+  },
+  {
+    "type": "navigate",
+    "url": "https://tech.slashdot.org/story/25/03/24/1645202/china-unveils-a-powerful-deep-sea-cable-cutter-that-could-reset-the-world-order",
+    "time": 10.015630006790161,
+    "duration": 0.08067679405212402
+  },
+  {
+    "type": "navigate",
+    "url": "about:blank",
+    "time": 10.19277834892273,
+    "duration": 0.17714834213256836
+  },
+  {
+    "type": "navigate",
+    "url": "https://tech.slashdot.org/story/25/03/24/1645202/china-unveils-a-powerful-deep-sea-cable-cutter-that-could-reset-the-world-order",
+    "time": 11.445897340774536,
+    "duration": 1.2531189918518066
+  },
+  {
+    "type": "navigate",
+    "url": "https://s.amazon-adsystem.com/iu3?cm3ppd=1&d=dtb-pub&csif=t&dl=n-LoopMe_n-adMediaV1_bf_n-MediaNet_n-Beeswax_smrt_n-colossusMedia_cnv_n-sharethrough_pm-db5_n-simpli.fi_rbd_n-baidu_an-db5_sovrn_n-Outbrain&dcc=t",
+    "time": 12.384398221969604,
+    "duration": 0.9385008811950684
+  },
+  {
+    "type": "navigate",
+    "url": "https://s.amazon-adsystem.com/v3/pr?exlist=n-LoopMe_n-adMediaV1_bf_n-MediaNet_n-Beeswax_smrt_n-colossusMedia_cnv_n-sharethrough_pm-db5_n-simpli.fi_rbd_n-baidu_an-db5_sovrn_n-Outbrain&fv=1.0&a=cm&cm3ppd=1&dmt=3",
+    "time": 12.434045314788818,
+    "duration": 0.04964709281921387
+  },
+  {
+    "type": "navigate",
+    "url": "https://s.amazon-adsystem.com/ecm3?id=8860133592051566185&ex=appnexus.com",
+    "time": 12.611715078353882,
+    "duration": 0.17766976356506348
+  },
+  {
+    "type": "navigate",
+    "url": "https://tech.slashdot.org/story/25/03/24/1645202/china-unveils-a-powerful-deep-sea-cable-cutter-that-could-reset-the-world-order",
+    "time": 13.275871276855469,
+    "duration": 0.6641561985015869
+  },
+  {
+    "type": "navigate",
+    "url": "https://gum.criteo.com/syncframe?origin=publishertagids&topUrl=tech.slashdot.org#{%22bundle%22:{%22origin%22:0},%22optout%22:{%22value%22:false,%22origin%22:0},%22tld%22:%22slashdot.org%22,%22topUrl%22:%22tech.slashdot.org%22,%22version%22:159,%22cw%22:true,%22lsw%22:true,%22origin%22:%22publishertagids%22,%22requestId%22:%220.4305422890531827%22}",
+    "time": 14.042799234390259,
+    "duration": 0.76692795753479
+  },
+  {
+    "type": "navigate",
+    "url": "https://acdn.adnxs.com/dmp/async_usersync.html",
+    "time": 15.402791261672974,
+    "duration": 1.3599920272827148
+  },
+  {
+    "type": "navigate",
+    "url": "https://eus.rubiconproject.com/usync.html",
+    "time": 15.5573091506958,
+    "duration": 0.15451788902282715
+  },
+  {
+    "type": "navigate",
+    "url": "https://ads.pubmatic.com/AdServer/js/user_sync.html?p=156011&s=165626&predirect=https%3A%2F%2Fs.amazon-adsystem.com%2Fecm3%3Fex%3Dpubmatic.com%26id%3D",
+    "time": 17.547048330307007,
+    "duration": 1.989739179611206
+  },
+  {
+    "type": "navigate",
+    "url": "https://ads.pubmatic.com/AdServer/js/user_sync.html?kdntuid=1&p=162538",
+    "time": 17.56220006942749,
+    "duration": 0.015151739120483398
+  },
+  {
+    "type": "navigate",
+    "url": "https://pbid.pro-market.net/engine?site=143573;size=1x1;e=0;dt=0;category=tt1kyd71%20-%20tfk8;kw=dp9fr%20dv46hlt%201%206ofm07tl%20l566%20bmj%20bact5%20tuc1nj%20tiik%20todtm%20qetmk%20ahx%205gqle%20fjuea;rnd=(1742853943441)",
+    "time": 22.761120080947876,
+    "duration": 5.198920011520386
+  },
+  {
+    "type": "navigate",
+    "url": "https://c1.adform.net/serving/cookie/match?party=14&cid=2699397A-458F-43CA-A12E-396ECC440EB7&gdpr=0&gdpr_consent=",
+    "time": 24.822633266448975,
+    "duration": 2.0615131855010986
+  },
+  {
+    "type": "navigate",
+    "url": "https://s.amazon-adsystem.com/dcm?pid=3b882453-6770-4785-baf8-a598533c054a&id=2699397A-458F-43CA-A12E-396ECC440EB7&redir=true&gdpr=0&gdpr_consent=",
+    "time": 24.832165241241455,
+    "duration": 0.009531974792480469
+  },
+  {
+    "type": "navigate",
+    "url": "https://s.amazon-adsystem.com/ecm3?ex=pubmatic.com&id=2699397A-458F-43CA-A12E-396ECC440EB7",
+    "time": 24.96699810028076,
+    "duration": 0.13483285903930664
+  },
+  {
+    "type": "navigate",
+    "url": "https://slashdot.org/index2.pl?fhfilter=artificial+intelligence",
+    "time": 26.70033311843872,
+    "duration": 1.733335018157959
+  },
+  {
+    "type": "navigate",
+    "url": "about:blank",
+    "time": 28.650731086730957,
+    "duration": 1.9503979682922363
+  },
+  {
+    "type": "navigate",
+    "url": "https://pbid.pro-market.net/engine?site=143573;size=1x1;e=0;dt=1;category=tt1kyd71;kw=smj6rrvp%202md%20l5nvl7xv6mt%20v5o9;rnd=(1742853961207)",
+    "time": 28.752161979675293,
+    "duration": 0.10143089294433594
+  },
+  {
+    "type": "navigate",
+    "url": "https://s.amazon-adsystem.com/iu3?cm3ppd=1&d=dtb-pub&csif=t&dl=n-sharethrough_n-LoopMe_n-adMediaV1_bf_n-MediaNet_smrt_n-colossusMedia_cnv_sovrn",
+    "time": 29.39507031440735,
+    "duration": 0.6429083347320557
+  },
+  {
+    "type": "navigate",
+    "url": "https://s.amazon-adsystem.com/v3/pr?exlist=n-sharethrough_n-LoopMe_n-adMediaV1_bf_n-MediaNet_smrt_n-colossusMedia_cnv_sovrn&fv=1.0&a=cm&cm3ppd=1&dmt=3",
+    "time": 29.449432134628296,
+    "duration": 0.054361820220947266
+  },
+  {
+    "type": "navigate",
+    "url": "https://match.sharethrough.com/jwumXNuB/v1/?callback=https%3A%2F%2Fs.amazon-adsystem.com%2Fecm3%3Fex%3Dsharethrough.com%26id%3D$UID",
+    "time": 29.614220142364502,
+    "duration": 0.16478800773620605
+  },
+  {
+    "type": "navigate",
+    "url": "https://ad-cdn.technoratimedia.com/html/usersync.html?source=amazon_uam&cb=https%3A%2F%2Fs.amazon-adsystem.com%2Fecm3%3Fex%3Dadmedia.com%26id%3D%5BUSER_ID%5D",
+    "time": 30.842666387557983,
+    "duration": 1.2284462451934814
+  },
+  {
+    "type": "navigate",
+    "url": "https://s.amazon-adsystem.com/ecm3?ex=smart.com&id=6160899955662212526&gdpr=0&gdpr_consent=",
+    "time": 31.042362213134766,
+    "duration": 0.19969582557678223
+  },
+  {
+    "type": "navigate",
+    "url": "https://ce.lijit.com/beacon/amazon?url=https://s.amazon-adsystem.com/ecm3?id=$UID&ex=sovrn.com",
+    "time": 31.073684215545654,
+    "duration": 0.03132200241088867
+  },
+  {
+    "type": "navigate",
+    "url": "https://us-u.openx.net/w/1.0/cm?id=8da2f9dd-77de-4961-a71d-959c5609fdb1&ph=9c552f28-6766-4d68-8e0e-995276acc8c6&r=https%3A%2F%2Fsync.technoratimedia.com%2Fservices%3Fsrv%3Dcs%26pid%3D50%26uid%3D%7BOPENX_ID%7D",
+    "time": 31.11945605278015,
+    "duration": 0.04577183723449707
+  },
+  {
+    "type": "navigate",
+    "url": "https://ads.pubmatic.com/AdServer/js/user_sync.html?p=156344&userIdMacro=%24UID%24&predirect=https%3A%2F%2Fsync.technoratimedia.com%2Fservices%3Fsrv%3Dcs%26pid%3D45%26uid%3D%24UID%24",
+    "time": 31.125468254089355,
+    "duration": 0.0060122013092041016
+  },
+  {
+    "type": "navigate",
+    "url": "https://sync.bfmio.com/syncb?pid=137",
+    "time": 31.13381814956665,
+    "duration": 0.008349895477294922
+  },
+  {
+    "type": "navigate",
+    "url": "https://s.amazon-adsystem.com/ecm3?ex=cnv.com&id=AQAEwfrN9TqX_gJTN4O2AQEBAQEBAQCUyzH-tgEBAJTLMf62&expiration=1742940363&is_secure=true",
+    "time": 31.34865927696228,
+    "duration": 0.21484112739562988
+  },
+  {
+    "type": "navigate",
+    "url": "https://image2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZjb2RlPTM0MzAmdGw9MTI5NjAw&piggybackCookie=di_c4c6685801ed4688ad807",
+    "time": 31.418297052383423,
+    "duration": 0.06963777542114258
+  },
+  {
+    "type": "navigate",
+    "url": "https://simage2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZjb2RlPTc4JnRsPTE1NzY4MDA=&piggybackCookie=8860133592051566185&gdpr=0&gdpr_consent=",
+    "time": 31.42351508140564,
+    "duration": 0.005218029022216797
+  },
+  {
+    "type": "navigate",
+    "url": "https://eb2.3lift.com/sync?redir=https%3A%2F%2Fsync.technoratimedia.com%2Fservices%3Fsrv%3Dcs%26pid%3D88%26uid%3D%24UID&ld=1",
+    "time": 31.634215116500854,
+    "duration": 0.21070003509521484
+  },
+  {
+    "type": "navigate",
+    "url": "https://image2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZjb2RlPTI3MzkmdGw9MTI5NjAw&piggybackCookie=1797288143719334261",
+    "time": 32.475526094436646,
+    "duration": 0.841310977935791
+  },
+  {
+    "type": "navigate",
+    "url": "https://eus.rubiconproject.com/usync.html",
+    "time": 32.73279523849487,
+    "duration": 0.25726914405822754
+  },
+  {
+    "type": "navigate",
+    "url": "https://ads.pubmatic.com/AdServer/js/user_sync.html?kdntuid=1&p=162538",
+    "time": 32.73588228225708,
+    "duration": 0.0030870437622070312
+  },
+  {
+    "type": "navigate",
+    "url": "https://acdn.adnxs.com/dmp/async_usersync.html",
+    "time": 32.738118171691895,
+    "duration": 0.002235889434814453
+  },
+  {
+    "type": "navigate",
+    "url": "https://ce.lijit.com/beacon?informer=12780340",
+    "time": 32.83317708969116,
+    "duration": 0.09505891799926758
+  },
+  {
+    "type": "navigate",
+    "url": "https://126746820af64d1b852eea3227c9d730.safeframe.googlesyndication.com/safeframe/1-0-41/html/container.html",
+    "time": 33.47484517097473,
+    "duration": 0.6416680812835693
+  },
+  {
+    "type": "navigate",
+    "url": "https://126746820af64d1b852eea3227c9d730.safeframe.googlesyndication.com/safeframe/1-0-41/html/container.html",
+    "time": 33.509515047073364,
+    "duration": 0.03466987609863281
+  },
+  {
+    "type": "navigate",
+    "url": "https://pagead2.googlesyndication.com/pagead/s/cookie_push_onload.html#aHR0cHM6Ly9zeW5jLXRtLmV2ZXJlc3R0ZWNoLm5ldC91cGkvcGlkLzV3M2pxcjRrP3JlZGlyPWh0dHBzJTNBJTJGJTJGY20uZy5kb3VibGVjbGljay5uZXQlMkZwaXhlbCUzRmdvb2dsZV9uaWQlM0RnOGY0N3MzOWUzOTlmM2ZlJTI2Z29vZ2xlX2htJTNEJTI0JTdCVE1fVVNFUl9JRF9CQVNFNjRFTkNfVVJMRU5DJTdEJmdvb2dsZV9wdXNoPUFYY29PbVNWdzJZZlVkdTc4akI5TlBEbWJObFJBUXJuTXF1a1NpSnVYOG9qSTJBZjZNbzNUQkxybXhTUWxaUXJYUzhjZ3lReU90VUlidlJhLVBhazJiNkhoNWdsUjc1dDgtcmVwLVU=,aHR0cHM6Ly9tYXRjaC5hZHNydnIub3JnL3RyYWNrL2NtZi9nb29nbGU_Z29vZ2xlX3B1c2g9QVhjb09tVEV0UGxsWDFMSjFUS0ZTUk5sN0EyTzctdlgyQVVULXoydk9HTHAtQXhDOTFqNk03UkV0amZMSjBzUkVPX1BaTXQ3X3dURmkzLXhwSXBDTlpKUnNPSG9VRVBxYkZlWnhpQQ==,aHR0cHM6Ly9zeW5jLmlwcmVkaWN0aXZlLmNvbS9kL3N5bmMvY29va2llL2dlbmVyaWM_aHR0cHM6Ly9jbS5nLmRvdWJsZWNsaWNrLm5ldC9waXhlbD9nb29nbGVfbmlkPWFkZWxwaGljX21vYmlsZSZnb29nbGVfcHVzaD1BWGNvT21RNzJudmE4dExKTFN6cV83aFpsblYzeWVhMWJSRkU3WGRFb3llamxfZE9vV21YQndYYlN3VnYtQXRsR3NBV3BSZ3JUa0kwN1pvQ0VGenFxUlY5VmRDSnVPeGs5NmsxN3cmZ29vZ2xlX2htPSR7QURFTFBISUNfQ1VJRF9CNjR9,aHR0cHM6Ly9ydGIuYWRlbnRpZmkuY29tL0Nvb2tpZVN5bmNBZFg_Z29vZ2xlX3B1c2g9QVhjb09tUWM2d0F2anpOZlg3V01ndzlwdGlJLTV1SWRtMG5oR2ctNWRhaG5FUDhJVVJ5NDhna2NkRVFXLVZYOTZSaVVXbGwya2REY1dIek1EZnl2d1RPdUpYUFNITVd3VWRYMTNn,aHR0cHM6Ly9kaXMuY3JpdGVvLmNvbS9kaXMvdXNlcnN5bmMuYXNweD9yPTQmcD0xNCZjcD1nb29nbGUmY3U9MSZ1cmw9aHR0cHMlM0ElMkYlMkZjbS5nLmRvdWJsZWNsaWNrLm5ldCUyRnBpeGVsJTNGZ29vZ2xlX25pZCUzRGNqcCUyNmdvb2dsZV9obSUzRCU0MCU0MENSSVRFT19VU0VSSUQlNDAlNDAlMjZnb29nbGVfcHVzaCUzREFYY29PbVMtQzBOcTBfd0t4YVRjaUtadGQ1Y0VIZjNadC04WF9nb0R0S0xmV0VkSHN3Rk9FMjZXY2FVUTA0dkV6VWJqR3ZLWU9MVUNFZE9CLVRSVkVpS2tuV3dzYVhoZkJOWjBDbnc=,aHR0cHM6Ly9iMXN5bmMuemVtYW50YS5jb20vdXNlcnN5bmMvZ29vZ2xlYWR4Lz9nb29nbGVfcHVzaD1BWGNvT21RWG9kdHl6NUNiNndqWThQdzNJWi1KSTM1eHIwdXdGYmxEQlNCMUlHRXNQUkxZOVF0NGotN0U2dWsweW5rVFluOUVDUVM0LWNBazhLNngtZGczY2pWN1dPQ05WRUJsYjdj,aHR0cHM6Ly9hLnJmaWh1Yi5jb20vY20_cHViPTQ0NSZpbj0xJmdvb2dsZV9wdXNoPUFYY29PbVJyUWEycENycWI0WlVvZnV0aFI3ZzlQZEg5VzR3WFdrTEVrWVJXaW1aeWdhUHpITi1pX1ZHQlFON3FhcWVlZ2xxamJKdVY5V2JMQjZaSkE3SzZCNG5lNl8tb3VxN2ZxX2M=,aHR0cHM6Ly9jbS5nLmRvdWJsZWNsaWNrLm5ldC9waXhlbC9hdHRyP2Q9QUhORjEzS2xHaTBLMkpGSmU1Z2pKU25wNktqMWpHOWRNNC14ZnMwcEY3Z2gxQjQteXAxWXhnUEV6cGdHY0toVGxKaGRCZG9RcVVxU0Zn",
+    "time": 33.54759430885315,
+    "duration": 0.038079261779785156
+  },
+  {
+    "type": "navigate",
+    "url": "https://image2.pubmatic.com/AdServer/Pug?gdpr=0&vcode=bz0yJnR5cGU9MSZjb2RlPTExMTMmdGw9NDMyMDA=&piggybackCookie=GYwUH0uMRUoC3hdNGI9cFx2LQh4CiUZNTIOHsoyM",
+    "time": 34.42240524291992,
+    "duration": 0.8748109340667725
+  },
+  {
+    "type": "navigate",
+    "url": "https://image2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZjb2RlPTMyOTcmdGw9MTI5NjAw&piggybackCookie=AAAxek7Pw64AABtN7h0VTQ&gdpr=0&gdpr_consent=",
+    "time": 34.42545199394226,
+    "duration": 0.003046751022338867
+  },
+  {
+    "type": "navigate",
+    "url": "https://simage2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZjb2RlPTMzMjYmdGw9MTI5NjAw",
+    "time": 34.65909814834595,
+    "duration": 0.23364615440368652
+  },
+  {
+    "type": "navigate",
+    "url": "https://image2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZjb2RlPTM0ODkmdGw9NDMyMDA=&piggybackCookie=OPU796c41ccee894ad3a445dc180d7f5fad",
+    "time": 34.94672417640686,
+    "duration": 0.2876260280609131
+  },
+  {
+    "type": "navigate",
+    "url": "https://simage2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZjb2RlPTMwNTQmdGw9NDMyMDA%3D&piggybackCookie=M-KnbJ-QAFIUReYpgLFZ4fRXvvpuPXwBzZZc0W6-9-k&pi=pubmatic&gdpr=0&gdpr_consent=&us_privacy=&gpp=&gpp_sid=",
+    "time": 36.0029821395874,
+    "duration": 1.056257963180542
+  },
+  {
+    "type": "navigate",
+    "url": "https://sync.resetdigital.co/csync/pubmatichttps://sync.resetdigital.co/csync/pubmatic&gdpr=0&gdpr_consent=",
+    "time": 36.29934310913086,
+    "duration": 0.29636096954345703
+  },
+  {
+    "type": "navigate",
+    "url": "https://simage2.pubmatic.com/AdServer/Pug?vcode&gdpr_consent=null&piggybackCookie={viewer_token}&gdpr=0",
+    "time": 36.30316209793091,
+    "duration": 0.003818988800048828
+  },
+  {
+    "type": "navigate",
+    "url": "https://eus.rubiconproject.com/usync.html?p=synacor_xapi&endpoint=us-east",
+    "time": 36.6543390750885,
+    "duration": 0.3511769771575928
+  },
+  {
+    "type": "navigate",
+    "url": "https://simage2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZqcz0xJmNvZGU9MjE5MSZ0bD0yNTkyMDA=&piggybackCookie=Z_HXUQAAAWXWgQBh&gdpr=0&gdpr_consent=&_test=Z_HXUQAAAWXWgQBh",
+    "time": 37.2319872379303,
+    "duration": 0.5776481628417969
+  },
+  {
+    "type": "navigate",
+    "url": "https://onetag-sys.com/usync/?pubId=572a470226457b8",
+    "time": 37.44089698791504,
+    "duration": 0.2089097499847412
+  },
+  {
+    "type": "navigate",
+    "url": "https://dis.criteo.com/dis/usersync.aspx?r=3&p=4&cp=pubmaticUS&cu=1&&gdpr=0&gdpr_consent=&url=https://simage2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZjb2RlPTE5MjgmdGw9NDMyMDA=&piggybackCookie=uid:@@CRITEO_USERID@@",
+    "time": 38.94768929481506,
+    "duration": 1.5067923069000244
+  },
+  {
+    "type": "navigate",
+    "url": "https://simage2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZqcz0xJmNvZGU9MjkzNiZ0bD00MzIwMA==&piggybackCookie=uid:54630D1B13704B9D9A6A4D9B101B8093&gdpr=0&gdpr_consent=",
+    "time": 39.025997161865234,
+    "duration": 0.0783078670501709
+  },
+  {
+    "type": "navigate",
+    "url": "https://ipac.ctnsnet.com/int/cm?exc=14&redir=https://simage2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZjb2RlPTM0MTEmdGw9MjAxNjA=&piggybackCookie=[user_id]&gdpr=0&gdpr_consent=",
+    "time": 39.169318199157715,
+    "duration": 0.14332103729248047
+  },
+  {
+    "type": "navigate",
+    "url": "https://sync.adkernel.com/user-sync?zone=218872&r=https://image2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZjb2RlPTM2MjgmdGw9MjE2MDA=&piggybackCookie={UID}&gdpr=0&gdpr_consent=&us_privacy=",
+    "time": 39.24480319023132,
+    "duration": 0.0754849910736084
+  },
+  {
+    "type": "navigate",
+    "url": "https://core.iprom.net/cookiesync?gdpr=0&gdpr_consent=",
+    "time": 39.61968207359314,
+    "duration": 0.3748788833618164
+  },
+  {
+    "type": "navigate",
+    "url": "https://image2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZjb2RlPTM2MTgmdGw9MjAxNjA=",
+    "time": 39.64506435394287,
+    "duration": 0.025382280349731445
+  },
+  {
+    "type": "navigate",
+    "url": "https://www.temu.com/api/adx/cm/pixel-pubmatic?id=2699397A-458F-43CA-A12E-396ECC440EB7&gdpr=0&gdpr_consent=&us_privacy=",
+    "time": 42.30306816101074,
+    "duration": 2.658003807067871
+  },
+  {
+    "type": "navigate",
+    "url": "https://www.temu.com/api/adx/cm/pixel-pubmatic?id=2699397A-458F-43CA-A12E-396ECC440EB7&gdpr=0&gdpr_consent=&us_privacy=",
+    "time": 42.31378722190857,
+    "duration": 0.010719060897827148
+  },
+  {
+    "type": "navigate",
+    "url": "https://image2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZjb2RlPTMyMDImdGw9MTI5NjAw&piggybackCookie=X2BhJHPAB2SrpI49WNfhZw",
+    "time": 44.2436363697052,
+    "duration": 1.9298491477966309
+  },
+  {
+    "type": "navigate",
+    "url": "https://slashdot.org/index2.pl?fhfilter=artificial+intelligence",
+    "time": 45.25437307357788,
+    "duration": 1.0107367038726807
+  },
+  {
+    "type": "navigate",
+    "url": "https://csync.smartadserver.com/diff/rtb/csync/CookieSync.html?hasrtb=true&nwid=4559&dcid=12&iscname=false&cname=&gdpr=0&gdpr_consent=",
+    "time": 45.37246632575989,
+    "duration": 0.11809325218200684
+  },
+  {
+    "type": "navigate",
+    "url": "https://slashdot.org/index2.pl?fhfilter=artificial+intelligence",
+    "time": 45.42547607421875,
+    "duration": 0.053009748458862305
+  },
+  {
+    "type": "navigate",
+    "url": "https://slashdot.org/index2.pl?fhfilter=artificial+intelligence",
+    "time": 46.61339735984802,
+    "duration": 1.1879212856292725
+  },
+  {
+    "type": "navigate",
+    "url": "https://slashdot.org/index2.pl?fhfilter=artificial+intelligence",
+    "time": 46.85620927810669,
+    "duration": 0.242811918258667
+  },
+  {
+    "type": "navigate",
+    "url": "https://126746820af64d1b852eea3227c9d730.safeframe.googlesyndication.com/safeframe/1-0-41/html/container.html",
+    "time": 47.11334013938904,
+    "duration": 0.25713086128234863
+  },
+  {
+    "type": "navigate",
+    "url": "https://pagead2.googlesyndication.com/pagead/s/cookie_push_onload.html#aHR0cHM6Ly9jbXMucXVhbnRzZXJ2ZS5jb20vZHBpeGVsP2E9cC1uNXZ2THZSZGpnMGVrJmVpZD0wJnFjX2dvb2dsZV9wdXNoPSZnb29nbGVfcHVzaD1BWGNvT21UeTZoQ0YtLWVXOGpmWmg2UWJKNXRZZER5eDNuUmQ3MHBmWXRlQzM4SHpsUzNhMl9nSm1YLUhsY0xwYl9IYThjQl8tTWdwdXFDc2kzUTdBdWZaei1Yb3VHNUxkQnhsTVE=,aHR0cHM6Ly9hLnRyaWJhbGZ1c2lvbi5jb20vaS5tYXRjaD9wPWI2JnU9Jmdvb2dsZV9wdXNoPUFYY29PbVNCYmpsWW9JVWFtYVFlelNEdGFvLVJyUWZUZTFGU0tKYnZCX1N4bGc2Sk5XSUowdFUwcHhXSXNhUEYzMUxuLXlRdXVIT3I3YUZlR0ZKWjNKWWtYcXZReHpRVHRabUdIQSZyZWRpcmVjdD1odHRwcyUzQS8vY20uZy5kb3VibGVjbGljay5uZXQvcGl4ZWwlM0Znb29nbGVfbmlkJTNEZXhwJTI2Z29vZ2xlX3B1c2glM0RBWGNvT21TQmJqbFlvSVVhbWFRZXpTRHRhby1SclFmVGUxRlNLSmJ2Ql9TeGxnNkpOV0lKMHRVMHB4V0lzYVBGMzFMbi15UXV1SE9yN2FGZUdGSlozSllrWHF2UXh6UVR0Wm1HSEElMjZnb29nbGVfdWxhJTNEMjc4Njk1NCUyNmdvb2dsZV9obSUzRCUyNFRGX1VTRVJfSURfRU5DJTI0,aHR0cHM6Ly90ci5ibGlzbWVkaWEuY29tL3YxL2FwaS9zeW5jL0FkeFBpeGVsP2dvb2dsZV9wdXNoPUFYY29PbVFrRE5fOUxySFFyNm1fNHByMnR1UUx5ZjNLcVpuZ2FXOGQyYkgzbmlMdUI1OWlqTnhUc19oWjFKTzV3VGprRk1mNnhwNk5jakJhODF5WFBmT2dRei05eUp4WnZwdDd2QQ==,aHR0cHM6Ly9ydGIuYWRlbnRpZmkuY29tL0Nvb2tpZVN5bmNBZFg_Z29vZ2xlX3B1c2g9QVhjb09tUWhkYk5mY05TRDhNNnRYZERRdXkwTjhNbXdXb0EyMWZoZFJ5UFhkUkhNSk45X3lkN2RlaTl4WGJkb3NDTHZXOGRZTEVwMWhBTC00N0MyczhHS1lwV2RoblE0T2t0YWFR,aHR0cHM6Ly94LmJpZHN3aXRjaC5uZXQvc3luYz9zc3A9Z29vZ2xlJmdvb2dsZV9wdXNoPUFYY29PbVROUHBDaW0zcFl5YVZFTTBPb1FnVDRkNTVDbjlucVNTTnFQVFluR2tVcXJSU2hsajFfemNHQklpWXMyLURhYUhoRkVqZkU4elcxY0ZGYWpvb2tfcllaampUSTlDMFRFdw==,aHR0cHM6Ly9wci1iaC55YnAueWFob28uY29tL3N5bmMvYWR4P2dvb2dsZV9wdXNoPUFYY29PbVN0RUZNQzBpNE11bURuMGFMWGpmOFpwVEY3LW4tQ3FZRVRfUlhsLVdiTkhoR1V3c0dCa05hQVJhTG1qNFVQQjNIaUxKbVJzUHBHb29WXzRSX095WldyalY3aWVlazRzZw==,aHR0cHM6Ly93d3cudGVtdS5jb20vYXBpL2FkeC9jbS9waXhlbD9nb29nbGVfcHVzaD1BWGNvT21SVGpwck9URWZrcVR5bVVObjhsSnBCeE5DbDFmXzFpQTEwLUlPZnpZeW50V0hCYmpVUTBZNkpLWXYyTUxaU0NpZ0F2VW1kOU92QWhnYVVQX2s1VkZKaG9ZbEozV2o1Q1NN,aHR0cHM6Ly9jbS5nLmRvdWJsZWNsaWNrLm5ldC9waXhlbC9hdHRyP2Q9QUhORjEzSU5DdlZXYURGMkZWc19tZ0l5OGhjN1pON2hZUHlOWVNEVmYwTjREM29WZkM5Z0hGTmxKUlY5YW4tRXNkRHo2SXJVbWt4OWZn",
+    "time": 47.1331901550293,
+    "duration": 0.01985001564025879
+  },
+  {
+    "type": "navigate",
+    "url": "https://simage2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZjb2RlPTMzMDEmdGw9MTI5NjAw&piggybackCookie=3792ed62-08fc-11f0-ba7e-db6bbf468531",
+    "time": 48.223334074020386,
+    "duration": 1.0901439189910889
+  },
+  {
+    "type": "navigate",
+    "url": "https://simage2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZjb2RlPTM0MzEmdGw9MTI5NjAw&piggybackCookie=LU3_bO0AV0RHCOCZDWqStK2iWs4&gdpr=0&gdpr_consent=",
+    "time": 48.29423713684082,
+    "duration": 0.07090306282043457
+  },
+  {
+    "type": "navigate",
+    "url": "https://beacon.lynx.cognitivlabs.com/pbmtc.gif?puid=2699397A-458F-43CA-A12E-396ECC440EB7",
+    "time": 48.417821168899536,
+    "duration": 0.12358403205871582
+  },
+  {
+    "type": "navigate",
+    "url": "https://simage2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZqcz0xJmNvZGU9Mjk0NSZ0bD0xMjk2MDA=&piggybackCookie=97c2f165-d592-4ebb-9509-506ff330234c&gdpr=0&gdpr_consent=&gdpr_pd=&us_privacy=#US_PRIVACY",
+    "time": 48.52006721496582,
+    "duration": 0.10224604606628418
+  },
+  {
+    "type": "navigate",
+    "url": "https://image2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZjb2RlPTM4NTgmdGw9NDMyMDA=&piggybackCookie=3ad39069-2520-51b0-abd5-f18a5ba0c5c7&gdpr=0&gdpr_consent=[GDPR_CONSENT]&us_privacy=[CCPA]",
+    "time": 48.54709720611572,
+    "duration": 0.027029991149902344
+  },
+  {
+    "type": "navigate",
+    "url": "https://simage2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZjb2RlPTMwNzQmdGw9MTI5NjAw&piggybackCookie=uid:YKAFlDXi1TWPW55&gdpr=0&gdpr_consent=",
+    "time": 48.59140920639038,
+    "duration": 0.0443120002746582
+  },
+  {
+    "type": "navigate",
+    "url": "https://simage2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZjb2RlPTM2MiZ0bD0xMjk2MDA==&piggybackCookie=uid:55b067e1-d75e-4000-8166-2d3787c663aa&gdpr=0&gdpr_consent=",
+    "time": 49.663870334625244,
+    "duration": 1.0724611282348633
+  },
+  {
+    "type": "navigate",
+    "url": "https://126746820af64d1b852eea3227c9d730.safeframe.googlesyndication.com/safeframe/1-0-41/html/container.html",
+    "time": 50.30562400817871,
+    "duration": 0.6417536735534668
+  },
+  {
+    "type": "navigate",
+    "url": "https://126746820af64d1b852eea3227c9d730.safeframe.googlesyndication.com/safeframe/1-0-41/html/container.html",
+    "time": 50.3144371509552,
+    "duration": 0.008813142776489258
+  },
+  {
+    "type": "navigate",
+    "url": "https://simage2.pubmatic.com/AdServer/Pug?vcode=bz0yJnR5cGU9MSZjb2RlPTMyMDMmdGw9NDMyMDA=&piggybackCookie=RX-8f304cb3-966c-473a-9d22-f3b0fd17a877-005",
+    "time": 50.53492307662964,
+    "duration": 0.22048592567443848
+  },
+  {
+    "type": "navigate",
+    "url": "https://ms-cookie-sync.presage.io/user-sync.html?equativ_id=SMART_USER_ID&source=equativ&gdpr=0&gdpr_consent=",
+    "time": 52.648579120635986,
+    "duration": 2.1136560440063477
+  },
+  {
+    "type": "navigate",
+    "url": "https://ssum-sec.casalemedia.com/usermatch?s=179394&cb=https%3A%2F%2Frtb-csync.smartadserver.com%2Fredir%2F%3Fissi%3D1%26partnerid%3D33%26partneruserid%3D&gdpr=0&gdpr_consent=",
+    "time": 52.67834806442261,
+    "duration": 0.029768943786621094
+  },
+  {
+    "type": "navigate",
+    "url": "https://rtb-csync.smartadserver.com/redir/?issi=1&partnerid=91&partneruserid=2699397A-458F-43CA-A12E-396ECC440EB7&gdpr=0&gdpr_consent=",
+    "time": 52.91286015510559,
+    "duration": 0.2345120906829834
+  },
+  {
+    "type": "navigate",
+    "url": "https://rtb-csync.smartadserver.com/redir/?issi=1&partnerid=32&partneruserid=3891424595603631476&gdpr=0&gdpr_consent=",
+    "time": 53.00255608558655,
+    "duration": 0.08969593048095703
+  },
+  {
+    "type": "navigate",
+    "url": "https://hde.tynt.com/deb/?m=xch&rt=html&id=0014000001aXjnGAAS&ru=https%3A%2F%2Fsync.technoratimedia.com%2Fservices%3Fsrv%3Dcs%26pid%3D61%26uid%3D33XUSERID33X&b=1",
+    "time": 53.03247928619385,
+    "duration": 0.029923200607299805
+  },
+  {
+    "type": "navigate",
+    "url": "https://ads.pubmatic.com/AdServer/js/user_sync.html?&p=156423&us_privacy=&predirect=https%3A%2F%2Fevents-ssc.33across.com%2Fmatch%3Fliv%3Dh%26us_privacy%3D%26bidder_id%3D25%26external_user_id%3D",
+    "time": 53.33153510093689,
+    "duration": 0.299055814743042
+  },
+  {
+    "type": "navigate",
+    "url": "https://eus.rubiconproject.com/usync.html?p=33across&endpoint=us-east&us_privacy=",
+    "time": 53.369312047958374,
+    "duration": 0.037776947021484375
+  },
+  {
+    "type": "navigate",
+    "url": "https://events-ssc.33across.com/match?liv=h&us_privacy=&bidder_id=25&external_user_id=2699397A-458F-43CA-A12E-396ECC440EB7",
+    "time": 54.13458204269409,
+    "duration": 0.7652699947357178
+  },
+  {
+    "type": "navigate",
+    "url": "https://events-ssc.33across.com/match?liv=h&us_privacy=&bidder_id=25&external_user_id=2699397A-458F-43CA-A12E-396ECC440EB7",
+    "time": 54.150822162628174,
+    "duration": 0.01624011993408203
+  },
+  {
+    "type": "navigate",
+    "url": "https://eu-u.openx.net/w/1.0/cm?id=a547219b-814b-4e3e-8a4f-35c044fa1891&ph=ec81d0b7-c42e-4a42-b97a-9305af647d30&r=https%3A%2F%2Frtb-csync.smartadserver.com%2Fredir%2F%3Fissi%3D1%26partnerid%3D100%26partneruserid%3D%7BOPENX_ID%7D&gdpr=0&gdpr_consent=",
+    "time": 55.31775617599487,
+    "duration": 1.1669340133666992
+  },
+  {
+    "type": "navigate",
+    "url": "https://tag.crsspxl.com/s2.html?d=2397&r=https%3A%2F%2Ftech.slashdot.org%2F&t=Slashdot%3A%20News%20for%20nerds%2C%20stuff%20that%20matters&u=https%3A%2F%2Fslashdot.org%2Findex2.pl%3Ffhfilter%3Dartificial%2Bintelligence",
+    "time": 66.33747625350952,
+    "duration": 11.019720077514648
+  },
+  {
+    "type": "navigate",
+    "url": "https://ep2.adtrafficquality.google/sodar/sodar2/232/runner.html",
+    "time": 67.83870720863342,
+    "duration": 1.5012309551239014
+  },
+  {
+    "type": "navigate",
+    "url": "https://www.google.com/recaptcha/api2/aframe",
+    "time": 67.90558218955994,
+    "duration": 0.06687498092651367
+  }
+]

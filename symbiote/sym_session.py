@@ -5,7 +5,7 @@
 # Author: my name here
 # Description: 
 # Created: 2024-11-22 19:01:02
-# Modified: 2025-01-29 18:51:50
+# Modified: 2025-03-26 15:48:59
 
 import time
 import sys
@@ -23,6 +23,7 @@ from collections import Counter
 from io import BytesIO
 from datetime import datetime
 from pathlib import Path
+from typing import Dict, Any
 from urllib.parse import urlparse
 
 # Local imports (explicit, no wildcard)
@@ -41,6 +42,19 @@ sym_theme = SymHighlighter()
 console = Console(highlighter=sym_theme, theme=sym_theme.theme)
 print = console.print
 log = console.log
+
+log("Loading symbiote interactor.")
+from symbiote.interactor import Interactor
+from symbiote.sym_functions import (
+        run_python_code,
+        run_bash_command,
+        get_weather,
+        create_qr_code,
+        get_website_data,
+        check_system_health,
+        duckduckgo_search,
+        google_search,
+    )
 
 log("Loading symbiote roles.")
 from symbiote.sym_roles import Roles
@@ -61,6 +75,8 @@ log(f"Loading symbiote sym_toolbar.")
 import symbiote.sym_toolbar as sym_toolbar
 log(f"Loading symbiote sym_code_extract.")
 from symbiote.sym_code_extract import CodeIdentifier
+
+import symbiote.headlines as hl
 
 # Third-party imports
 log(f"Loading third party modules.")
@@ -115,11 +131,7 @@ from prompt_toolkit.lexers import PygmentsLexer
 from pygments.lexers.python import PythonLexer
 
 system = platform.system()
-
-models = [
-        "groq:llama-3.1-70b-versatile",
-        "groq:mixtral-8x7b-32768",
-        ] 
+models = []
 
 log("Loading ollama.")
 from ollama import Client
@@ -142,13 +154,6 @@ try:
 except Exception as e:
     log(e)
     pass
-
-log("Loading groq.")
-from groq import Groq
-try:
-    grclient = Groq()
-except Exception as e:
-    log(e)
 
 command_list = {
         "help::": "This help output.",
@@ -354,12 +359,25 @@ class SymSession():
             table.add_column("Command 2", style="gold1", ratio=1, no_wrap=True, justify="left")
             table.add_column("Command 3", style="gold1", ratio=1, no_wrap=True, justify="left")
 
-            # Prepare rows for three-column layout
+            # Get commands sorted alphabetically
             commands = sorted(self.command_list.keys())
-            for i in range(0, len(commands), 3):
-                row = commands[i:i + 3]  # Get the next three commands
-                while len(row) < 3:  # Ensure the row has exactly three items
-                    row.append("")
+
+            # Calculate number of rows (divide total commands by 3, round up)
+            num_rows = (len(commands) + 2) // 3  # Ceiling division for even distribution
+
+            # Distribute commands vertically across columns
+            columns = [[], [], []]  # Three empty lists for each column
+            for i, cmd in enumerate(commands):
+                col_index = i // num_rows  # Determine which column (0, 1, or 2)
+                columns[col_index].append(cmd)
+
+            # Pad shorter columns with empty strings to match the longest column
+            max_len = max(len(col) for col in columns)
+            for col in columns:
+                col.extend([""] * (max_len - len(col)))
+
+            # Add rows by zipping the columns together
+            for row in zip(columns[0], columns[1], columns[2]):
                 table.add_row(*row)
         else:
             # Create a two-column table with commands and descriptions
@@ -367,7 +385,7 @@ class SymSession():
             table.add_column("Command", style="gold1", ratio=2, no_wrap=True, justify="right")
             table.add_column("Description", style="", ratio=6, justify="left")
 
-            # Add rows with command descriptions
+            # Add rows with command descriptions, sorted alphabetically
             for cmd, desc in sorted(self.command_list.items()):
                 table.add_row(cmd, desc)
 
@@ -535,7 +553,7 @@ class SymSession():
             if self.shell_mode is True:
                 prompt_content = "shell mode> "
             else:
-                prompt_content = f"{self.settings['role'].lower()}> "
+                prompt_content = f"{self.settings['role'].lower()}>\n"
             
             prompt = f"{prompt_content}"
             return prompt 
@@ -559,6 +577,18 @@ class SymSession():
             log(f"Failure to start PromptSession: {e}")
             return None
 
+        ai = Interactor(model=self.settings["model"])
+        ai.add_function(run_bash_command)
+        ai.add_function(run_python_code)
+        ai.add_function(get_website_data)
+        ai.add_function(google_search)
+        ai.add_function(duckduckgo_search)
+        ai.add_function(check_system_health)
+        ai.add_function(create_qr_code)
+        ai.add_function(get_weather)
+        ai.add_function(self.check_email)
+        ai.add_function(self.current_news)
+        ai.add_function(extract_text)
 
         while True:
             response = str()
@@ -567,7 +597,6 @@ class SymSession():
             current_time = now.strftime("%H:%M:%S")
             current_date = now.strftime("%m/%d/%Y")
 
-            print("\n")
             print("\n")
 
             # Chack for a change in settings and write them
@@ -604,8 +633,30 @@ class SymSession():
 
                 response = ""
                 if not_empty(user_input):
-                    response = self.send_message(user_input)
-                    print()
+
+                    # Define system prompt
+                    current_role = self.settings["role"]
+                    available_roles = Roles.get_roles()
+                    now = datetime.now()
+                    current_time = now.strftime("%H:%M:%S")
+                    current_date = now.strftime("%m/%d/%Y")
+                    prefix = f"Date: {current_date} {current_time}"
+                    ai.set_system(f"{prefix}\n{available_roles[current_role]}")
+
+                    self.writeHistory('user', user_input)
+                    response = ai.interact(
+                            user_input,
+                            model=self.settings["model"],
+                            tools=True,
+                            stream=self.settings["stream"],
+                            markdown=self.settings["markdown"]
+                        )
+                    self.writeHistory('assistant', response)
+
+                    if self.settings['speech']:
+                        speech = SymSpeech()
+                        speech_thread = threading.Thread(target=speech.say, args=(response,))
+                        speech_thread.start()
 
                     if self.shell_mode is True:
                         if response.startswith("`") and response.endswith("`"):
@@ -621,11 +672,12 @@ class SymSession():
 
             try:
                 user_input = self.ps.prompt(
-                    message=get_prompt(),
+                    #message=get_prompt(),
+                    message=f"╠═ {self.settings["role"]} ═╣>\n",
                     multiline=True,
                     default=user_input,
                     cursor=CursorShape.BLOCK,
-                    rprompt=f"{current_date} {current_time}",
+                    rprompt=f"{current_time}",
                     vi_mode=self.settings['vi_mode'],
                     completer=self.command_completer,
                     complete_while_typing=False,
@@ -811,50 +863,6 @@ class SymSession():
                             print(chunk['message']['content'], end='', highlight=False, style="grey89")
                 else:
                     response = stream['message']['content']
-                    if markdown is True:
-                        print(Markdown(response))
-                    else:
-                        print(response)
-
-            """
-            if stream.message.tool_calls:
-            # There may be multiple tool calls in the response
-                for tool in stream.message.tool_calls:
-                    # Ensure the function is available, and then call it
-                    if function_to_call := available_functions.get(tool.function.name):
-                        print('Calling function:', tool.function.name)
-                        print('Arguments:', tool.function.arguments)
-                        print('Function output:', function_to_call(**tool.function.arguments))
-                    else:
-                      print('Function', tool.function.name, 'not found')
-            """
-        elif self.settings['model'].startswith("groq"):
-            model_name = self.settings['model'].split(":")
-            model = model_name[1]
-
-            try:
-                stream = grclient.chat.completions.create(
-                        model = model,
-                        messages = message,
-                        stream = stream,
-                        )
-            except Exception as e:
-                log(e)
-                return None
-
-            if self.suppress is True:
-                response = stream.choices[0].message.content
-            else:
-                if streaming:
-                    for chunk in stream:
-                        if chunk.choices[0].delta.content is not None:
-                            response += chunk.choices[0].delta.content
-                            if markdown is True:
-                                print(chunk.choices[0].delta.content, end="")
-                            else:
-                                print(chunk.choices[0].delta.content, end='')
-                else:
-                    response = stream.choices[0].message.content
                     if markdown is True:
                         print(Markdown(response))
                     else:
@@ -1276,6 +1284,7 @@ class SymSession():
         summary_pattern = r'^extract::|^extract:(.*):(.*):|^extract:(.*):'
         match = re.search(summary_pattern, user_input)
         if match:
+            file_path = None
             if match.group(1):
                 file_path = match.group(1)
                 screenshot_pattern = r'^screenshot$'
@@ -1307,6 +1316,7 @@ class SymSession():
             else:
                 log(f"Invalid file: {file_path}")
 
+            self.display_object(metadata)
             log(f"File details stored: key: extract_command")
             return None 
 
@@ -1545,7 +1555,6 @@ class SymSession():
         news_pattern = r'\bnews::|\bheadlines::'
         match = re.search(news_pattern, user_input)
         if match:
-            import symbiote.headlines as hl
             gh = hl.getHeadlines()
             result = gh.scrape()
             print(Panel(Text(result), title=f"News Headlines"))
@@ -1696,16 +1705,15 @@ class SymSession():
                 log("No location set in settings::")
                 return None
 
-            result = self.get_weather(location)
+            result = get_weather(location)
 
             if result is None:
                 log(f"Unable to get weather for {location}")
                 return None
 
-            weather = json.dumps(result['current_condition'], indent=4) 
+            weather = json.dumps(result, indent=4) 
             self.memory.create("weather_command", weather)
 
-            print(Panel(Text(weather), title=f"Weather: {location}"))
             if _checkCommand(user_input) is None:
                 log(f"Results written to history")
                 self.writeHistory("user", weather)
@@ -1715,7 +1723,6 @@ class SymSession():
             user_input = user_input[:match.start()] + content + user_input[match.end():]
 
             return user_input
-
         
         # Trigger for inspect:: command to inspect running python objects.
         _registerCommand("inspect::")
@@ -2157,7 +2164,7 @@ class SymSession():
                     self.writeHistory("user", content) 
                     return None
 
-                user_input = user_input[:match.start()] + report + user_input[match.end():]
+                user_input = user_input[:match.start()] + content + user_input[match.end():]
                 return user_input
             else:
                 log("No results returned.")
@@ -2227,7 +2234,7 @@ class SymSession():
             title=title,
             text=text).run()
 
-    def file_selector(self, message, start_path='./'):
+    def file_selector(self, message="Select file:", start_path='./'):
         result = inquirer.filepath(
                 message=message,
                 default=start_path,
@@ -2872,23 +2879,6 @@ class SymSession():
 
         return app.run()
 
-    def get_weather(self, location="33004"):
-        text = None 
-        try:
-            # Format the URL for wttr.in with the specified location
-            url = f'https://wttr.in/{location}?format=j1'
-            response = requests.get(url)
-
-            if response.status_code == 200:
-                text = json.loads(response.text)
-                return text 
-            else:
-                log(f"Failed to get weather data. Status code: {response.status_code}")
-        except Exception as e:
-            log(f"An error occurred: {e}")
-
-        return text
-
     def get_network_data(self):
         import netifaces
         import dns.resolver
@@ -3278,6 +3268,53 @@ class SymSession():
 
         console.print(" " * padding, table)
 
+    def current_news(self):
+        """
+        Get the curren news headlines from the major news providers.
+        """
+        gh = hl.getHeadlines()
+        return gh.scrape()
+
+    def check_email(self) -> Dict[str, Any]:
+        """
+        Check for emails using the configured IMAP settings and return email data.
+
+        This method initializes a `MailChecker` instance from the `symbiote.GetEmail` module
+        to fetch emails based on the provided settings. It supports IMAP protocol and allows
+        filtering emails by a time range (days) and read/unread status. The email data is
+        returned in a structured dictionary format.
+
+        Returns:
+            Dict[str, Any]: A dictionary containing email fetch results with the following keys:
+                - status (str): "success" or "error" indicating the outcome.
+                - emails (List[Dict[str, str]]): List of dictionaries, each containing email details
+                  (e.g., subject, from, date, body) if successful.
+                - error (str or None): Error message if the status is "error", otherwise None.
+
+        Raises:
+            KeyError: If required IMAP settings ('imap_username', 'imap_password') are missing
+                      from `self.settings`.
+            ImportError: If the `symbiote.GetEmail` module is not available.
+
+        Example:
+            >>> settings = {'imap_username': 'user@example.com', 'imap_password': 'password'}
+            >>> instance = MyClass(settings)
+            >>> result = instance.check_email()
+            >>> print(result)
+            {'status': 'success', 'emails': [{'subject': 'Test', 'from': 'sender@example.com', ...}], 'error': None}
+        """
+        import symbiote.GetEmail as mail
+        mail_checker = mail.MailChecker(
+            username=self.settings['imap_username'],
+            password=self.settings['imap_password'],
+            mail_type='imap',
+            days=2,
+            unread=False,
+            model=None,
+        )
+        email = mail_checker.check_mail()
+        return email
+
     def display_object(self, data):
         """
         Render a table for the given dictionary or list.
@@ -3341,3 +3378,5 @@ class SymSession():
 
         # Print the table
         console.print(" " * padding, table)
+
+

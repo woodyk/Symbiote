@@ -5,7 +5,7 @@
 # Author: Wadih Khairallah
 # Description: 
 # Created: 2024-11-26 15:56:34
-# Modified: 2024-11-27 06:45:14
+# Modified: 2025-03-23 13:34:35
 #!/usr/bin/env python3
 #
 # sym_toolbar.py
@@ -107,8 +107,8 @@ def render_dashboard(settings=None, functions=None, max_lines=12, tail_lines=Non
 
     # Create the grid for the dashboard
     dashboard_grid = Table.grid(expand=True, padding=(0, 0))
-    dashboard_grid.add_column(ratio=1)
     dashboard_grid.add_column(ratio=2)
+    dashboard_grid.add_column(ratio=3)
     dashboard_grid.add_row(dashboard_panel, log_panel)
 
     grid.add_row(dashboard_grid)

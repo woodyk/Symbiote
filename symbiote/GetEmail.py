@@ -1,4 +1,12 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# File: GetEmail.py
+# Author: Wadih Khairallah
+# Description: 
+# Created: 2025-03-21 22:30:02
+# Modified: 2025-03-22 20:34:26
+#!/usr/bin/env python3
 #
 # GetEmail.py
 
@@ -12,6 +20,10 @@ import json
 import time
 import re
 from ollama import Client
+from rich.console import Console
+console = Console()
+log = console.log
+
 olclient = Client(host='http://localhost:11434')
 log("Loading symbiote GetEmail.")
 
@@ -35,32 +47,35 @@ class MailChecker:
             raise ValueError("Unsupported mail type. Use 'imap' or 'pop'.")
 
     def _check_imap_mail(self):
-        with imaplib.IMAP4_SSL(self.imap_server) as mail:
-            mail.login(self.username, self.password)
-            mail.select('inbox', readonly=True)  # Open mailbox in read-only mode
+        try:
+            with imaplib.IMAP4_SSL(self.imap_server) as mail:
+                mail.login(self.username, self.password)
+                mail.select('inbox', readonly=True)  # Open mailbox in read-only mode
 
-            search_criteria = []
-            if self.unread:
-                search_criteria.append('UNSEEN')
-            if self.days is not None:
-                date = (datetime.now() - timedelta(days=self.days)).strftime("%d-%b-%Y")
-                search_criteria.append(f'SINCE {date}')
-            
-            search_criteria = ' '.join(search_criteria) or 'ALL'
-            result, data = mail.search(None, search_criteria)
-            mail_ids = data[0].split()
+                search_criteria = []
+                if self.unread:
+                    search_criteria.append('UNSEEN')
+                if self.days is not None:
+                    date = (datetime.now() - timedelta(days=self.days)).strftime("%d-%b-%Y")
+                    search_criteria.append(f'SINCE {date}')
+                
+                search_criteria = ' '.join(search_criteria) or 'ALL'
+                result, data = mail.search(None, search_criteria)
+                mail_ids = data[0].split()
 
-            emails = []
-            count = 0
-            for mail_id in mail_ids:
-                count += 1
-                log(f"Processing {count} of {len(mail_ids)} e-mails.")
-                result, msg_data = mail.fetch(mail_id, '(RFC822)')
-                raw_email = msg_data[0][1]
-                msg = email.message_from_bytes(raw_email)
-                emails.append(self._get_email_content(msg))
+                emails = []
+                count = 0
+                for mail_id in mail_ids:
+                    count += 1
+                    #log(f"Processing {count} of {len(mail_ids)} e-mails.")
+                    result, msg_data = mail.fetch(mail_id, '(RFC822)')
+                    raw_email = msg_data[0][1]
+                    msg = email.message_from_bytes(raw_email)
+                    emails.append(self._get_email_content(msg))
 
-            return emails
+                return emails
+        except Exception as e:
+            print(f"Error: {e}")
 
     def _check_pop_mail(self):
         with poplib.POP3_SSL(self.pop_server) as mail:

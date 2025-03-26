@@ -5,7 +5,7 @@
 # Author: Wadih Khairallah
 # Description: 
 # Created: 2024-12-01 12:12:08
-# Modified: 2025-01-29 18:47:56
+# Modified: 2025-03-22 16:58:24
 #!/usr/bin/env python3
 #
 # sym_utils.py
@@ -304,7 +304,49 @@ def extract_dir_text(dir_path):
     return content
 
 def extract_text(file_path):
+    """
+    Extracts text content from a file based on its MIME type.
+
+    Processes various file types (text, Excel, PDF, Word, images,
+    audio) and returns their extracted text as a UTF-8 string. Uses
+    helper methods for non-text files (e.g., PDF to markdown,
+    audio transcription). Logs issues and returns None if no
+    content is found or an error occurs.
+
+    Args:
+        file_path (str): Path to the file, cleaned via `clean_path`.
+
+    Returns:
+        str or None: Extracted text if successful, else None.
+
+    Raises:
+        Exception: Caught internally, logged with `log` function.
+
+    Supported MIME Types:
+        - Text: 'text/*', 'application/json', 'application/xml',
+          'application/x-yaml', 'text/markdown'
+        - Excel: 'application/vnd.ms-excel',
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        - PDF: 'application/pdf'
+        - Word: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        - Image: 'image/*'
+        - Audio: 'audio/*'
+
+    Examples:
+        >>> extract_text("example.txt")
+        'Hello, world!'
+        >>> extract_text("example.pdf")
+        '# Page 1\\nContent here...'
+        >>> extract_text("invalid_file.txt")
+        None  # Logs "Error reading invalid_file.txt: [error]"
+    """
+    log(f"Extracting text from: {file_path}")
+
     file_path = clean_path(file_path)
+    if not os.path.exists(file_path):
+        log(f"No such file: {file_path}")
+        return f"No such file: {file_path}"
+
     mime_type = magic.from_file(file_path, mime=True)
     try:
         content = "" 
@@ -325,7 +367,9 @@ def extract_text(file_path):
             content = handle_image_file(file_path)
 
         elif mime_type.startswith('audio/'):
-            content = trascribe_audio_file(file_path)
+            content = transcribe_audio_file(file_path)
+        else:
+            content = extract_metadata(file_path)
 
         if len(content) > 0:
             content = content.encode('utf-8').decode('utf-8', errors='ignore')
@@ -492,38 +536,6 @@ def display_documents(json_data):
         log("No results found.")
 
     return output 
-
-""""
-def grep_files(es_results, search_term):
-    file_list = []
-    fuzzy = re.sub(r'~\d\b|\bAND\b|\bOR\b', ' ', search_term)
-
-    regex_search = lucene_like_to_regex(search_term)
-    if regex_search is False:
-        return None
-
-    for hit in es_results['hits']['hits']:
-        source_file = hit["fields"]['METADATA.SourceFile'][0]
-        if source_file is not None:
-            file_list.append(source_file)
-
-    text = ""
-    for file_path in file_list:
-        with open(file_path, 'r') as file:
-            for line_no, line in enumerate(file.readlines(), start=1):
-                if re.search(regex_search, line, re.I):
-                    text += line
-                    continue
-                
-                chunks = break_text(line, 1) 
-
-                for chunk in chunks:
-                    ratio = fuzz.ratio(fuzzy.lower(), chunk.lower())
-                    if ratio > 50:
-                        text += line
-                        break
-    return text
-"""
 
 def break_text(text, num_words):
     words = text.split()

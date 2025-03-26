@@ -5,6 +5,8 @@
 # Author: Wadih Khairallah
 # Description: 
 # Created: 2024-11-28 02:26:17
+# Modified: 2025-03-03 14:47:47
+
 from rich.console import Console
 from rich.highlighter import RegexHighlighter
 import textwrap

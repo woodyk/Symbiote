@@ -1,0 +1,391 @@
+<title>Textual Deception Analyzer and Visualizer</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+  }
+  h1, h2 {
+    color: #2c3e50;
+  }
+  .analysis-section {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  .score-bar {
+    background-color: #ecf0f1;
+    height: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 10px;
+  }
+  .score-fill {
+    height: 100%;
+    background-color: #3498db;
+    transition: width 0.5s ease-in-out;
+  }
+  #text-input {
+    width: 100%;
+    height: 150px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  #analyze-btn {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  #analyze-btn:hover {
+    background-color: #27ae60;
+  }
+  #overall-score {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .hidden {
+    display: none;
+  }
+</style>
+</head>
+<body>
+  <h1>Textual Deception Analyzer and Visualizer</h1>
+  <textarea id="text-input" placeholder="Enter the text you want to analyze for deception..."></textarea>
+  <button id="analyze-btn">Analyze Text</button>
+  
+  <div id="analysis-results" class="hidden">
+    <div id="overall-score"></div>
+    
+    <div class="analysis-section">
+      <h2>Content Type <span class="score"></span></h2>
+      <p class="description"></p>
+      <div class="score-bar"><div class="score-fill"></div></div>
+    </div>
+    
+    <div class="analysis-section">
+      <h2>Synthetic Content <span class="score"></span></h2>
+      <p class="description"></p>
+      <div class="score-bar"><div class="score-fill"></div></div>
+    </div>
+    
+    <div class="analysis-section">
+      <h2>Emotion Analysis <span class="score"></span></h2>
+      <p class="description"></p>
+      <div class="score-bar"><div class="score-fill"></div></div>
+    </div>
+    
+    <div class="analysis-section">
+      <h2>Sentiment Analysis <span class="score"></span></h2>
+      <p class="description"></p>
+      <div class="score-bar"><div class="score-fill"></div></div>
+    </div>
+    
+    <div class="analysis-section">
+      <h2>Anomaly Detection <span class="score"></span></h2>
+      <p class="description"></p>
+      <div class="score-bar"><div class="score-fill"></div></div>
+    </div>
+    
+    <div class="analysis-section">
+      <h2>Fact-Checking and Verification <span class="score"></span></h2>
+      <p class="description"></p>
+      <div class="score-bar"><div class="score-fill"></div></div>
+    </div>
+    
+    <div class="analysis-section">
+      <h2>Behavioral Linguistic Patterns <span class="score"></span></h2>
+      <p class="description"></p>
+      <div class="score-bar"><div class="score-fill"></div></div>
+    </div>
+    
+    <div class="analysis-section">
+      <h2>Consistency and Plausibility Analysis <span class="score"></span></h2>
+      <p class="description"></p>
+      <div class="score-bar"><div class="score-fill"></div></div>
+    </div>
+    
+    <div class="analysis-section">
+      <h2>Detection of Overcompensation <span class="score"></span></h2>
+      <p class="description"></p>
+      <div class="score-bar"><div class="score-fill"></div></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+  <script>
+    class DeceptionDetector {
+      constructor() {
+        this.stopWords = new Set(['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 'it', "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', "that'll", 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', "don't", 'should', "should've", 'now', 'd', 'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', "aren't", 'couldn', "couldn't", 'didn', "didn't", 'doesn', "doesn't", 'hadn', "hadn't", 'hasn', "hasn't", 'haven', "haven't", 'isn', "isn't", 'ma', 'mightn', "mightn't", 'mustn', "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't", 'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"]);
+        this.deceptionPatterns = this._initializeDeceptionPatterns();
+      }
+
+      _initializeDeceptionPatterns() {
+        return {
+          overemphasizingTruthfulness: /\b(honestly|to be honest|believe me|i swear|let me be clear|trust me)\b/gi,
+          nonContractedDenials: /\b(i did not|he does not|she did not|they did not|it is not)\b/gi,
+          hedgingStatements: /\b(as far as i know|to the best of my knowledge|i believe|maybe|possibly|likely|probably)\b/gi,
+          avoidanceOfPronouns: /\b(the document was|the item was|the task was)\b/gi,
+          excessiveDetail: /\b(first|then|after that|next)\b/gi,
+          euphemisms: /\b(take|borrow|misplace|involved|accidentally)\b/gi,
+          repeatedQuestion: /\b(did i|do you mean)\b/gi,
+          defensiveResponses: /\b(why would you|what do you mean|how could you)\b/gi,
+          verbalFillers: /\b(um|uh|you know|like)\b/gi,
+          certaintyWords: /\b(always|never|absolutely|definitely|certainly)\b/gi,
+          lackOfSpecificity: /\b(something|stuff|things|someone|somebody|somewhere)\b/gi,
+          chronologicalStorytelling: /\b(first|second|third|after that|then)\b/gi,
+          negation: /\b(did not|didn't)\b/gi,
+          minimization: /\b(just a|only a|small)\b/gi,
+          repetition: /\b(\w+)\s+\1\b/gi,
+          unexpectedDetails: /\b(unnecessary detail|irrelevant detail|unrelated)\b/gi,
+          overlyFormal: /\b(hereby|therefore|henceforth)\b/gi,
+          firstPersonPronouns: /\b(i|me|my|mine|we|us|our|ours|myself|ourselves)\b/gi,
+          qualifiers: /\b(very|really|extremely|absolutely|definitely|certainly|truly|surely|completely|utterly|highly|perfectly|deeply|incredibly|totally|significantly|greatly|quite|rather|fairly|somewhat|slightly|pretty|kind of|sort of|basically)\b/gi
+        };
+      }
+
+      analyzeText(text) {
+        if (!text || typeof text !== 'string' || text.trim().length === 0) {
+          throw new Error('Invalid input: Text must be a non-empty string');
+        }
+
+        const sentences = this._tokenizeSentences(text);
+        const words = this._tokenizeWords(text);
+
+        const readabilityScore = this._calculateReadability(text);
+        const lexicalDiversity = this._calculateLexicalDiversity(words);
+        const linguisticFeatures = this._analyzeLinguisticFeatures(sentences, words);
+        const syntacticComplexity = this._analyzeSyntacticComplexity(sentences, words);
+        const [deceptionMarkerScores, deceptionPatternAggregate] = this._analyzeDeceptionMarkers(sentences);
+        const [emotionalConsistencyScore, emotionalSentenceScores] = this._analyzeEmotionalPatterns(sentences);
+
+        const sentenceScores = this._calculateSentenceScores(
+          sentences, lexicalDiversity, linguisticFeatures, deceptionMarkerScores
+        );
+
+        const outlierScores = this._detectAnomalies(sentences);
+
+        const deceptionScore = this._calculateDeceptionScore(
+          readabilityScore, lexicalDiversity, linguisticFeatures, syntacticComplexity,
+          outlierScores, deceptionMarkerScores, emotionalConsistencyScore
+        );
+
+        const explanation = this._generateExplanation(
+          readabilityScore, lexicalDiversity, linguisticFeatures, syntacticComplexity,
+          outlierScores, deceptionMarkerScores, emotionalConsistencyScore
+        );
+
+        const topDeceptiveSentences = this._extractTopDeceptiveSentences(sentenceScores);
+
+        return {
+          deceptionScore: deceptionScore,
+          readabilityScore: readabilityScore,
+          lexicalDiversity: lexicalDiversity,
+          linguisticFeatures: linguisticFeatures,
+          syntacticComplexity: syntacticComplexity,
+          emotionalConsistencyScore: emotionalConsistencyScore,
+          outlierScores: outlierScores,
+          deceptionPatternAggregate: deceptionPatternAggregate,
+          explanation: explanation,
+          topDeceptiveSentences: topDeceptiveSentences
+        };
+      }
+
+      _tokenizeSentences(text) {
+        return text.match(/[^.!?]+[.!?]+/g) || [];
+      }
+
+      _tokenizeWords(text) {
+        return text.toLowerCase().match(/\b(\w+)\b/g) || [];
+      }
+
+      _calculateReadability(text) {
+        const sentences = this._tokenizeSentences(text);
+        const words = this._tokenizeWords(text);
+        if (words.length === 0 || sentences.length === 0) {
+          return 0;
+        }
+        const syllables = words.reduce((count, word) => count + this._countSyllables(word), 0);
+
+        const averageWordsPerSentence = words.length / sentences.length;
+        const averageSyllablesPerWord = syllables / words.length;
+
+        const readabilityScore = 206.835 - 1.015 * averageWordsPerSentence - 84.6 * averageSyllablesPerWord;
+        return Math.min(Math.max(readabilityScore / 100, 0), 1);
+      }
+
+      _countSyllables(word) {
+        if (!word) return 0;
+        word = word.toLowerCase();
+        if(word.length <= 3) return 1;
+        word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
+        word = word.replace(/^y/, '');
+        const syllableCount = (word.match(/[aeiouy]{1,2}/g) || []).length;
+        return syllableCount === 0 ? 1 : syllableCount;
+      }
+
+      _calculateLexicalDiversity(words) {
+        return words.length > 0 ? new Set(words).size / words.length : 0;
+      }
+
+      _analyzeLinguisticFeatures(sentences, words) {
+        const passiveVoiceCount = sentences.filter(s => /\b(was|were|been|is|are|am)\s+\w+ed\b/gi.test(s)).length;
+        const modalVerbCount = words.filter(w => ['can', 'could', 'may', 'might', 'must', 'shall', 'should', 'will', 'would'].includes(w)).length;
+        const negationCount = words.filter(w => ['not', 'no', 'never', "n't"].includes(w)).length;
+
+        return {
+          passiveVoice: sentences.length > 0 ? passiveVoiceCount / sentences.length : 0,
+          modalVerbs: words.length > 0 ? modalVerbCount / words.length : 0,
+          negations: words.length > 0 ? negationCount / words.length : 0
+        };
+      }
+
+      _analyzeSyntacticComplexity(sentences, words) {
+        if (sentences.length === 0) return 0;
+        const complexSentenceCount = sentences.filter(s => 
+          /,|;|:|-|\(|\)/.test(s) || 
+          /\b(although|however|nevertheless|nonetheless|on the other hand)\b/i.test(s)
+        ).length;
+        return complexSentenceCount / sentences.length;
+      }
+
+      _analyzeDeceptionMarkers(sentences) {
+        const deceptionScores = sentences.map(sentence => {
+          let score = 0;
+          for (const pattern of Object.values(this.deceptionPatterns)) {
+            if (pattern.test(sentence)) score++;
+          }
+          return score / Object.keys(this.deceptionPatterns).length;
+        });
+
+        const deceptionPatternAggregate = {};
+        for (const [patternName, pattern] of Object.entries(this.deceptionPatterns)) {
+          deceptionPatternAggregate[patternName] = sentences.filter(s => pattern.test(s)).length;
+        }
+
+        return [deceptionScores, deceptionPatternAggregate];
+      }
+
+      _analyzeEmotionalPatterns(sentences) {
+        // This is a simplified version. In a real scenario, you'd use a more sophisticated emotion analysis model.
+        const emotionalSentenceScores = sentences.map(sentence => {
+          const positiveWords = ['happy', 'joy', 'excited', 'love'].filter(word => sentence.toLowerCase().includes(word)).length;
+          const negativeWords = ['sad', 'angry', 'fear', 'hate'].filter(word => sentence.toLowerCase().includes(word)).length;
+          return (positiveWords - negativeWords) / Math.max(sentence.split(' ').length, 1);
+        });
+
+        const emotionalConsistencyScore = emotionalSentenceScores.length > 1 ? 
+          1 - (Math.max(...emotionalSentenceScores) - Math.min(...emotionalSentenceScores)) :
+          1;
+        return [emotionalConsistencyScore, emotionalSentenceScores];
+      }
+
+      _calculateSentenceScores(sentences, lexicalDiversity, linguisticFeatures, deceptionMarkerScores) {
+        return sentences.map((sentence, i) => {
+          const score = 0.4 * _.mean(Object.values(linguisticFeatures)) +
+                        0.2 * lexicalDiversity +
+                        0.4 * (deceptionMarkerScores[i] || 0);
+          return [sentence, score];
+        });
+      }
+
+      _detectAnomalies(sentences) {
+        const sentenceLengths = sentences.map(s => s.split(' ').length);
+        if (sentenceLengths.length === 0) return { zScoreOutliers: 0 };
+        const mean = _.mean(sentenceLengths);
+        const stdDev = Math.sqrt(_.mean(sentenceLengths.map(x => Math.pow(x - mean, 2))));
+        const zScores = sentenceLengths.map(x => Math.abs((x - mean) / (stdDev || 1)));
+        return {
+          zScoreOutliers: zScores.filter(z => z > 2).length / zScores.length
+        };
+      }
+
+      _calculateDeceptionScore(readability, lexicalDiversity, linguisticFeatures, syntacticComplexity, outlierScores, deceptionMarkerScores, emotionalConsistencyScore) {
+        const score = 0.1 * readability +
+                      0.1 * (1 - lexicalDiversity) +
+                      0.1 * _.mean(Object.values(linguisticFeatures)) +
+                      0.1 * syntacticComplexity +
+                      0.1 * outlierScores.zScoreOutliers +
+                      0.3 * _.mean(deceptionMarkerScores) +
+                      0.2 * (1 - emotionalConsistencyScore);
+        return Math.min(Math.max(score, 0), 1);
+      }
+
+      _generateExplanation(readability, lexicalDiversity, linguisticFeatures, syntacticComplexity, outlierScores, deceptionMarkerScores, emotionalConsistencyScore) {
+        return {
+          readabilityImpact: `Text readability score is ${readability.toFixed(2)}, ${readability > 0.67 ? 'increasing' : readability > 0.33 ? 'moderately impacting' : 'lowering'} the deception score.`,
+          lexicalDiversityImpact: `Lexical diversity is ${lexicalDiversity.toFixed(2)}, ${lexicalDiversity > 0.5 ? 'decreasing' : 'increasing'} the deception score.`,
+          linguisticFeaturesImpact: `Detected ${linguisticFeatures.passiveVoice.toFixed(2)} normalized instances of passive voice, ${linguisticFeatures.modalVerbs.toFixed(2)} modal verbs, and ${linguisticFeatures.negations.toFixed(2)} negations per sentence.`,
+          syntacticComplexityImpact: `Syntactic complexity score is ${syntacticComplexity.toFixed(2)}, ${syntacticComplexity > 0.5 ? 'increasing' : 'lowering'} the deception score.`,
+          anomalyDetectionImpact: `${outlierScores.zScoreOutliers.toFixed(2)} proportion of sentences flagged as outliers by Z-Score, ${outlierScores.zScoreOutliers > 0.1 ? 'increasing' : 'slightly impacting'} the deception score.`,
+          emotionalConsistencyImpact: `Emotional consistency score is ${emotionalConsistencyScore.toFixed(2)}. ${emotionalConsistencyScore > 0.5 ? 'High emotional variability' : 'Stable emotional patterns'} affect the deception score accordingly.`,
+          deceptionPatternImpact: `Deception pattern score is ${_.mean(deceptionMarkerScores).toFixed(2)}. Frequent use of deceptive language patterns significantly increases the deception score.`
+        };
+      }
+
+      _extractTopDeceptiveSentences(sentenceScores, topN = 3) {
+        return _.take(_.sortBy(sentenceScores, s => -s[1]), topN);
+      }
+    }
+
+    $(document).ready(function() {
+      const detector = new DeceptionDetector();
+
+      $('#analyze-btn').click(function() {
+        const text = $('#text-input').val();
+        if (text.trim() === '') {
+          alert('Please enter some text to analyze.');
+          return;
+        }
+        
+        try {
+          const results = detector.analyzeText(text);
+          displayResults(results);
+        } catch (error) {
+          console.error('Error analyzing text:', error);
+          alert('An error occurred while analyzing the text. Please try again with different input.');
+        }
+      });
+    });
+
+    function displayResults(results) {
+      $('#analysis-results').removeClass('hidden');
+      $('#overall-score').text('Overall Deception Score: ' + results.deceptionScore.toFixed(2));
+      
+      updateSection('Content Type', results.linguisticFeatures.passiveVoice, results.explanation.linguisticFeaturesImpact);
+      updateSection('Synthetic Content', results.lexicalDiversity, results.explanation.lexicalDiversityImpact);
+      updateSection('Emotion Analysis', results.emotionalConsistencyScore, results.explanation.emotionalConsistencyImpact);
+      updateSection('Sentiment Analysis', results.readabilityScore, results.explanation.readabilityImpact);
+      updateSection('Anomaly Detection', results.outlierScores.zScoreOutliers, results.explanation.anomalyDetectionImpact);
+      updateSection('Fact-Checking and Verification', results.syntacticComplexity, results.explanation.syntacticComplexityImpact);
+      updateSection('Behavioral Linguistic Patterns', _.mean(Object.values(results.linguisticFeatures)), results.explanation.linguisticFeaturesImpact);
+      updateSection('Consistency and Plausibility Analysis', 1 - results.outlierScores.zScoreOutliers, results.explanation.anomalyDetectionImpact);
+      updateSection('Detection of Overcompensation', _.mean(results.deceptionMarkerScores), results.explanation.deceptionPatternImpact);
+    }
+
+    function updateSection(title, score, description) {
+      const section = $('.analysis-section').filter(function() {
+        return $(this).find('h2').text().includes(title);
+      });
+      
+      section.find('.score').text('(' + score.toFixed(2) + ')');
+      section.find('.description').text(description);
+      section.find('.score-fill').css('width', (score * 100) + '%');
+    }
+  </script>
+</body>
+</html>

@@ -1,4 +1,12 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# File: setup.py
+# Author: Wadih Khairallah
+# Description: 
+# Created: 2025-03-22 16:10:05
+# Modified: 2025-03-23 14:50:03
+#!/usr/bin/env python3
 
 from setuptools import setup, Command, find_packages
 import os
@@ -31,5 +39,6 @@ setup(
             'symbiote=symbiote.app:main',
         ],
     },
-    python_requires='>=3.10, <3.13',
+    #python_requires='>=3.10, <3.13',
+    python_requires='>=3.10',
 )

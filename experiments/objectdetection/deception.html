@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deception Text Analyzer</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #1d1f21;
+            color: #c5c6c7;
+            font-family: 'Courier New', monospace;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            background-color: #2b2f36;
+            color: #c5c6c7;
+            margin-bottom: 20px;
+        }
+        .card .card-header {
+            background-color: #4a4e55;
+            font-weight: bold;
+        }
+        .card-body p {
+            font-size: 1.1em;
+        }
+        .scroll-box {
+            background-color: #1d1f21;
+            color: #c5c6c7;
+            border: 1px solid #4a4e55;
+            padding: 10px;
+            margin-top: 10px;
+            max-height: 150px;
+            overflow-y: auto;
+            font-size: 0.75em;
+        }
+        .scroll-box p {
+            margin-bottom: 5px;
+        }
+        .scroll-box span.highlight {
+            background-color: #ffcc00;
+            color: #000;
+        }
+        .scroll-box::-webkit-scrollbar {
+            width: 8px;
+        }
+        .scroll-box::-webkit-scrollbar-thumb {
+            background-color: #c5c6c7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h3>Deception Text Analyzer</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="textToAnalyze">Enter text to analyze for deception:</label>
+                            <textarea class="form-control" id="textToAnalyze" rows="6"></textarea>
+                        </div>
+                        <button id="analyzeButton" class="btn btn-success btn-block">Analyze Text</button>
+                    </div>
+                </div>
+
+                <div id="results">
+                    <!-- Results will be inserted here dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // High-confidence two-word and multi-word phrases for each deception category
+        const NEGATIVE_WORDS = [
+            "completely disgusted", "deeply ashamed", "absolutely horrible", 
+            "extremely angry", "terribly upset", "deeply worried", 
+            "utterly devastated", "truly enraged", "absolutely devastated", 
+            "completely broken", "utterly miserable"
+        ];
+
+        const PASSIVE_WORDS = [
+            "was done", "were handled", "is reported", "was seen", 
+            "was taken", "was believed", "was told to", "is said to be", 
+            "is thought to have", "was discovered", "it was said", "is alleged", 
+            "was confirmed"
+        ];
+
+        const VAGUE_WORDS = [
+            "kind of", "sort of", "roughly around", "approximately", 
+            "maybe", "possibly", "eventually happened", "somewhat unclear", 
+            "seems to suggest", "in some way", "could indicate", 
+            "more or less", "sort of like", "around the time", 
+            "relatively few"
+        ];
+
+        const ABSOLUTE_WORDS = [
+            "never fails", "always happens", "without question", 
+            "completely true", "no doubt", "forever certain", 
+            "never wrong", "entirely correct", "always right", 
+            "without fail", "definitely certain", "cannot fail", 
+            "undeniably true"
+        ];
+
+        const DISTANCING_WORDS = [
+            "that person", "someone said", "they claimed", "one person", 
+            "those people", "that individual", "somebody else", 
+            "they implied", "that other person", "one other", 
+            "someone they knew", "a person who said", "it is alleged", 
+            "another party"
+        ];
+
+        const JUSTIFICATIONS = [
+            "because of", "due to", "as a result", "so I could", 
+            "therefore", "to make sure", "as a precaution", 
+            "to avoid", "in case of", "because it seemed", 
+            "to make sure I could", "just in case"
+        ];
+
+        const QUALIFIERS = [
+            "possibly could", "might be", "seems like", "sort of feels", 
+            "could potentially", "I guess", "I'm not sure", 
+            "could be true", "might have been", "seems possible", 
+            "could likely", "appears to be", "likely the case", 
+            "it’s possible that", "there might be a chance"
+        ];
+
+        const MINIMIZERS = [
+            "no big deal", "hardly matters", "barely noticeable", 
+            "nothing important", "just a minor", "only happened", 
+            "just a bit", "barely an issue", "hardly relevant", 
+            "nothing to it", "only a little", "not that big of a deal"
+        ];
+
+        const EVASIVE_PHRASES = [
+            "to be honest", "honestly speaking", "if I'm being honest", 
+            "like I said", "you know", "frankly speaking", 
+            "to be clear", "just saying", "not to worry", 
+            "I think you'll agree", "as I mentioned", 
+            "that’s not important right now", "I don’t recall exactly", 
+            "you wouldn’t understand"
+        ];
+
+        const POLITENESS = [
+            "I apologize", "with all due respect", "please understand", 
+            "thank you for", "I hope", "I sincerely", 
+            "I trust you understand", "thank you kindly", 
+            "much appreciated", "if you don't mind", 
+            "please bear with me", "I appreciate your understanding", 
+            "thank you for your patience"
+        ];
+
+        const INTENSIFIERS = [
+            "I swear", "absolutely true", "completely sure", 
+            "without question", "really believe", "trust me", 
+            "honestly speaking", "truly believe", "completely certain", 
+            "without a doubt", "absolutely convinced", 
+            "I absolutely guarantee", "you can be sure", "I’m 100% certain"
+        ];
+
+        const THIRD_PERSON_PRONOUNS = [
+            "they said", "he or she", "someone else", "those people", 
+            "that individual", "it was their", "those individuals", 
+            "he or they", "she or they", "it was their idea", 
+            "someone who told me", "they were told", "he said they did"
+        ];
+
+        document.getElementById('analyzeButton').addEventListener('click', function () {
+            const text = document.getElementById('textToAnalyze').value.toLowerCase();
+            const sentences = text.split(/[.!?]/).map(s => s.trim()).filter(Boolean);
+            const results = {};
+
+            function countOccurrences(text, list) {
+                let matches = [];
+                list.forEach(phrase => {
+                    sentences.forEach(sentence => {
+                        if (sentence.includes(phrase)) {
+                            let highlightedSentence = sentence.replace(new RegExp(`(${phrase})`, 'gi'), `<span class="highlight">$1</span>`);
+                            matches.push(highlightedSentence);
+                        }
+                    });
+                });
+                return { count: matches.length, sentences: matches };
+            }
+
+            results['Negative Language'] = countOccurrences(text, NEGATIVE_WORDS);
+            results['Passive Voice'] = countOccurrences(text, PASSIVE_WORDS);
+            results['Vagueness'] = countOccurrences(text, VAGUE_WORDS);
+            results['Absolutes'] = countOccurrences(text, ABSOLUTE_WORDS);
+            results['Distancing Language'] = countOccurrences(text, DISTANCING_WORDS);
+            results['Over-Justification'] = countOccurrences(text, JUSTIFICATIONS);
+            results['Qualifiers'] = countOccurrences(text, QUALIFIERS);
+            results['Minimizers'] = countOccurrences(text, MINIMIZERS);
+            results['Evasive Language'] = countOccurrences(text, EVASIVE_PHRASES);
+            results['Politeness'] = countOccurrences(text, POLITENESS);
+            results['Intensifiers'] = countOccurrences(text, INTENSIFIERS);
+            results['Third-Person Pronouns'] = countOccurrences(text, THIRD_PERSON_PRONOUNS);
+
+            const totalScore = Object.values(results).reduce((sum, value) => sum + value.count, 0);
+            const conclusion = totalScore >= 7 ? 
+                "The text shows several patterns often associated with deception." : 
+                "The text does not show strong indicators of deception based on the analyzed patterns.";
+
+            displayResults(results, totalScore, conclusion);
+        });
+
+        function displayResults(results, totalScore, conclusion) {
+            const resultsContainer = document.getElementById('results');
+            resultsContainer.innerHTML = '';
+
+            const scoreCard = `
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">Analysis Summary</div>
+                        <div class="card-body">
+                            <p>Total Deception Score: <strong>${totalScore}</strong></p>
+                            <p><strong>${conclusion}</strong></p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            resultsContainer.insertAdjacentHTML('beforeend', scoreCard);
+
+            Object.keys(results).forEach((pattern) => {
+                const result = results[pattern];
+                const sentenceList = result.sentences.length > 0 ? 
+                    result.sentences.map(sentence => `<p>${sentence}</p>`).join('') : 
+                    "<p>No sentences matched.</p>";
+                
+                const card = `
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">${pattern}</div>
+                            <div class="card-body">
+                                <p>Occurrences: <strong>${result.count}</strong></p>
+                                <div class="scroll-box">
+                                    ${sentenceList}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                resultsContainer.insertAdjacentHTML('beforeend', card);
+            });
+        }
+    </script>
+
+</body>
+</html>
+

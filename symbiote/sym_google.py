@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# File: sym_google.py
+# Author: Wadih Khairallah
+# Description: 
+# Created: 2025-03-13 17:35:34
+#!/usr/bin/env python3
 #
 # sym_google.py 
 
